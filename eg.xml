@@ -1,0 +1,3777 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<EventGhost Version="1640" Guid="{2A157FBE-5E95-4C7E-93B0-BCC73D8C989D}" Time="1397405621.41">
+    <Autostart Name="Autostart" Expanded="True">
+        <Plugin Identifier="Winamp" Guid="{4A22DD6A-5E2C-4500-90B4-47F5C58FD9CA}" File="Winamp">
+            gAIpLg==
+        </Plugin>
+        <Plugin Identifier="USB_UIRT" Guid="{36FD4F40-653C-4626-97CC-BE363C05F933}" File="USB-UIRT">
+            gAIoiYmJiXRxAC4=
+        </Plugin>
+        <Plugin Identifier="Webserver" Guid="{E4305D8E-A3D3-4672-B06E-4EA1F0F6C673}" File="Webserver">
+            gAIoWAQAAABIVFRQcQBLWVglAAAAQzpcUHJvZ3JhbSBGaWxlcyAoeDg2KVxFdmVudEdob3N0XHdlYnEBWAoAAABFdmVudEdob3N0cQJYAAAAAHEDaAN9cQQoVQZodW1vdXRxBVgCAAAANDRxBlgFAAAAc2Fsb25xB1gCAAAAT05xCFgFAAAAYml1cm9xCVgCAAAAT05xClUDdm9scQtYAwAAADEwMHEMVQZ0cm9qa2FxDVgDAAAAT0ZGcQ5VB2tvbWluZWtxD1gBAAAAMXEQWAQAAABnb3NpcRFYAwAAAE9GRnESWAUAAABzdWZpdHETWAMAAABPRkZxFFUFc3phZmFxFVgDAAAAT0ZGcRZVATFxF1gDAAAAT0ZGcRhVATVxGVgCAAAAT05xGlUHdGVtcG91dHEbWAIAAAAxMHEcWAUAAABib3hlZXEdWAIAAABPTnEeWAYAAABhbGxvZmZxH1gCAAAAT05xIFUEamF6enEhWAMAAABPRkZxIlUEa3BsdXEjWAMAAABPRkZxJFUEa2p6enElWAIAAABPTnEmWAYAAABhcnR1cmFxJ1gDAAAAT0ZGcShVA29mZnEpWAMAAABPRkZxKlgEAAAAYnRvbnErWAIAAABPTnEsVQR0ZXJtcS1YAgAAADIzcS5YBQAAAGJ0b2ZmcS9YAwAAAE9GRnEwVQR0ZW1wcTFYAgAAADIzcTJYAgAAAHNzcTNYAgAAAHNzcTRVBG5vd2FxNVgDAAAAT0ZGcTZVBmxhbXBraXE3WAMAAABPRkZxOFUGbGFtcGthcTlYAwAAAE9GRnE6dYhYAQAAACxxO1gCAAAAOztxPHRxPS4=
+        </Plugin>
+        <Plugin Identifier="Timer" Guid="{6149CA99-1FCD-4450-9160-7543BC20CFD3}" File="Timer">
+            gAIpLg==
+        </Plugin>
+        <Plugin Identifier="Speech" Guid="{76A1638D-1D7D-4582-A726-A17B1A6FC723}" File="Speech">
+            gAIpLg==
+        </Plugin>
+        <Plugin Enabled="False" Identifier="X10_CM15A" Guid="X10-CM15A" File="X10-CM15A">
+            gAIpLg==
+        </Plugin>
+        <Plugin Identifier="CommandFusion" Guid="CommandFusion" File="CommandFusion">
+            gAJNVB9YAAAAAHEAiYdxAS4=
+        </Plugin>
+        <Plugin Identifier="Android" Guid="Android" File="Android">
+            gAIoWA8AAAAgIDE5Mi4xNjguNzguNDRxAE3/A1gEAAAAZHVwYXEBWAMAAABUQ1BxAnRxAy4=
+        </Plugin>
+        <Action Name="GetPhonebook">
+            EventGhost.PythonScript(u'import hashlib\nimport atom\nimport gdata.contacts\nimport gdata.contacts.service\nimport re\ngd_client = gdata.contacts.service.ContactsService()\n \n# Change this obviously \ngd_client.email = \'artur@mymaj.net\'\ngd_client.password = \'Artu1n0!\'\ngd_client.ProgrammaticLogin()\n \n"""\nThis is used like a case statement later on.\nIt\'s apparently a slightly slow way to do it but it just seems so elegant to me.  I\'m not a Pythonista at all though so there may be a more Pythonic way to do it that I\'m not aware of.\n""" \nrel_list = {gdata.contacts.REL_WORK: "Work",\n            gdata.contacts.REL_HOME: "Home",\n            gdata.contacts.REL_OTHER: "Other",\n            gdata.contacts.PHONE_MOBILE: "Mobile"}\n \n# This is the date used for "updated_min" below.\ndate = \'1979-08-12T00:00:00\'\n#date=now()\nprint date\n \nquery = gdata.contacts.service.ContactsQuery()\nquery.updated_min = date\nquery.max_results = 1000\nquery[\'sortorder\'] = "ascending"\n \nfeed = gd_client.GetContactsFeed(query.ToUri())\nphonebk = {}\nfor contact in feed.entry:\n    nam = contact.title.text\n    comp = ""\n#    print contact.title.text\n#    print nam\n    try:\n        comp = contact.organization.org_name.text\n    except:\n        pass\n    if comp is None:\n        comp = ""\n     \n    if nam is None:\n        nam = ""\n    namecomp = nam + " - " + comp\n    for phone in contact.phone_number:\n        num9=re.sub("\\D","",phone.text)\n        if num9[0] == "1":\n            num9 = num9[1:len(num9)]\n        num9=num9[:10]\n        if num9 is None:\n            num9=""\n        #print  num9 + " = " + namecomp\n        if len(num9) == 10:\n            #print  num9 + " = " + namecomp\n            phonebk[num9] = namecomp\n# Change this obviously \ngd_client.email = \'gochnamaj@gmail.com\'\ngd_client.password = \'Stokrotka21\'\ngd_client.ProgrammaticLogin()\n \n\ndate = \'1979-08-12T00:00:00\'\n \nquery = gdata.contacts.service.ContactsQuery()\nquery.updated_min = date\nquery.max_results = 1000\nquery[\'sortorder\'] = "ascending"\n \nfeed = gd_client.GetContactsFeed(query.ToUri())\nfor contact in feed.entry:\n    nam = contact.title.text\n    comp = ""\n#    print contact.title.text\n#    print nam\n    try:\n        comp = contact.organization.org_name.text\n    except:\n        pass\n    if comp is None:\n        comp = ""\n     \n    if nam is None:\n        nam = ""\n    namecomp = nam + " - " + comp\n    for phone in contact.phone_number:\n        num9=re.sub("\\D","",phone.text)\n        if num9[0] == "1":\n            num9 = num9[1:len(num9)]\n        num9=num9[:10]\n        if num9 is None:\n            num9=""\n        print  num9 + " = " + namecomp\n        if len(num9) == 10:\n            #print  num9 + " = " + namecomp\n            phonebk[num9] = namecomp\neg.globals.phonebook = phonebk\ndef rel_type(rel):\n    pass')
+        </Action>
+        <Action Name="ShowPhonebook">
+            EventGhost.PythonScript(u'd = eg.globals.phonebook\nfor k,v in d.items():\n    print k + " " + v')
+        </Action>
+        <Plugin Identifier="NetworkSender" Guid="{B4F0DAFE-2E0B-47F3-A155-ED72C7A4E270}" File="NetworkSender">
+            gAJYDAAAADE5Mi4xNjguNzguNXEATQAEWAAAAABxAYdxAi4=
+        </Plugin>
+        <Action>
+            System.Execute(u'C:\\bin\\startvm.bat', u'', 0, False, 2, u'', False, False)
+        </Action>
+        <Plugin Identifier="Serial" Guid="{D565171F-1703-4212-972C-B824B55329CB}" File="Serial">
+            gAIoSwVNgCVLA0sASwBLAIhYAgAAAFxucQBYBgAAAFNlcmlhbHEBSwB0cQIu
+        </Plugin>
+        <Action Name="InitVars">
+            EventGhost.PythonScript(u'#lampy = [\'artura\',\'gosi\',\'sufit\',\'lampki\',\'lampka\',\'nowa\',\'szafa\']\n#for nazwa in lampy:\n # eg.plugins.Webserver.SetPersisitentValue(nazwa,"OFF",false,false)\n#eg.plugins.Webserver.SetPersisitentValue(\'term\',"20",false,false)\neg.globals.A = "OFF"\neg.globals.Kalibrowane = "NO"\neg.globals.Vol = 5')
+        </Action>
+        <Action Name="Timer: Stop Winamp" Enabled="False">
+            Timer.TimerAction(u'Stop Winamp', 0, 1, 7200.0, u'StopWinamp', False, False, 3, u'00:02:00')
+        </Action>
+        <Action Name="temp-check">
+            Timer.TimerAction(u'temp-chk', 0, 0, 120.0, u'tempcheck', False, False, 1, u'00:00:00')
+        </Action>
+        <Action Name="pump" Enabled="False">
+            Timer.TimerAction(u'pump', 0, 0, 30.0, u'pump', False, False, 1, u'00:00:00')
+        </Action>
+        <Plugin Identifier="Twilight" Guid="Twilight" File="Twilight">
+            gAJHQEiAAAAAAABHwF5AAAAAAABYCAAAAFR3aWxpZ2h0cQCHcQEu
+        </Plugin>
+        <Plugin Identifier="Cron" Guid="Cron" File="Cron">
+            gAIpLg==
+        </Plugin>
+        <Action>
+            Cron.ScheduleCronJob(u'Gorszy-off', u'', u'30', u'22', u'*', u'*', u'*', True)
+        </Action>
+        <Action>
+            Cron.ScheduleCronJob(u'Rano', u'', u'50', u'5', u'*', u'*', u'1-5', True)
+        </Action>
+        <Action>
+            Cron.ScheduleCronJob(u'Kominek-20', u'', u'0', u'22', u'*', u'*', u'*', True)
+        </Action>
+        <Action>
+            Cron.ScheduleCronJob(u'Kominek-28', u'', u'35', u'5', u'*', u'*', u'*', True)
+        </Action>
+        <Action>
+            Serial.Write(u'A99')
+        </Action>
+        <Action>
+            Cron.ScheduleCronJob(u'KJZZ w niedziele', u'Splendid', u'0', u'14', u'*', u'*', u'0', True)
+        </Action>
+        <Plugin Identifier="XBMC2" Guid="{8C8B850C-773F-4583-AAD9-A568262B7933}" File="XBMCRepeat">
+            gAJ9cQAoVQlCcm9hZGNhc3RxAX1xAihVBmVuYWJsZXEDiFUEcG9ydHEETVYgdVUMbG9nUmF3RXZlbnRzcQWJVQdKU09OUlBDcQZ9cQcoaAOIaARNgiN1VQRYQk1DcQh9cQkoVQh1c2VybmFtZXEKVQBxC1UCaXBxDFgNAAAAMTkyLjE2OC43OC4xM3ENVQhwYXNzd29yZHEOaAtoBEtQdXVYAgAAADgwcQ+GcRAu
+        </Plugin>
+        <Action Name="szafa" Enabled="False">
+            Timer.TimerAction(u'szafa', 0, 0, 600.0, u'szafa pusta', False, False, 1, u'00:00:00')
+        </Action>
+        <Plugin Identifier="PingPlugin" Guid="Ping" File="Ping">
+            gAJYAwAAAD0zMnEAhXEBLg==
+        </Plugin>
+        <Action>
+            PingPlugin.AddHost(u'192.168.78.13', u'boxee', 200, u'boxee.on', u'boxee.off', 1, 2)
+        </Action>
+        <Plugin id="17" Identifier="CM11A" Guid="{7D5FF697-3094-4209-AEF6-E3DA575FB657}" File="CM11A">
+            gAJLAEsChnEALg==
+        </Plugin>
+    </Autostart>
+    <Macro Name="Firecracker">
+        <Action>
+            EventGhost.DisableItem(XmlIdLink(17))
+        </Action>
+        <Action>
+            EventGhost.PythonScript(u"import x10\nx10.sendCommands('com1', 'A10 Off')")
+        </Action>
+        <Action>
+            EventGhost.EnableItem(XmlIdLink(17))
+        </Action>
+    </Macro>
+    <Macro Name="Turn Off Computer">
+        <Event Name="Cron.Gorszy-off" />
+        <Action>
+            XBMC2.PowerOff()
+        </Action>
+        <Action>
+            EventGhost.NewJumpIf(XmlIdLink(667), 2, True)
+        </Action>
+        <Action>
+            System.Execute(u'C:\\Program Files (x86)\\EventGhost\\sleep.bat', u'', 0, True, 2, u'C:\\Program Files (x86)\\EventGhost', False, False)
+        </Action>
+        <Action>
+            XBMC2.Shutdown()
+        </Action>
+        <Action>
+            EventGhost.PythonCommand(u'eg.document.Save()')
+        </Action>
+        <Action>
+            EventGhost.Wait(20.0)
+        </Action>
+        <Action>
+            System.PowerDown(True)
+        </Action>
+        <Action>
+            EventGhost.PythonCommand(u'eg.document.Save()')
+        </Action>
+    </Macro>
+    <Macro Name="poranek">
+        <Event Name="Cron.Rano" />
+        <Action>
+            EventGhost.NewJumpIf(XmlIdLink(466), 2, True)
+        </Action>
+        <Action>
+            EventGhost.NewJumpIf(XmlIdLink(539), 2, True)
+        </Action>
+    </Macro>
+    <Macro Name="wake najlepszy">
+        <Event Name="SchedulGhost.poranek" />
+        <Action>
+            System.WakeOnLan(u'78-2B-CB-EE-B2-FF')
+        </Action>
+    </Macro>
+    <Folder Name="HT">
+        <Macro Name="ON">
+            <Event Name="X10.TV" />
+            <Event Name="HTTP.TV" />
+            <Event Name="HTTP.TV-power" />
+            <Event Name="HTTP.HT-ON" />
+            <Event Name="USB_UIRT.NEC.109E423C" />
+            <Action Name="Yamaha-ON">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FB 0153 0055 0016 0E73', 4, 0)
+            </Action>
+            <Action>
+                EventGhost.NewJumpIf(XmlIdLink(123), 2, True)
+            </Action>
+            <Action Name="Yamaha-DTV?CBL">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 05FB 0153 0055 0016 0E74', 4, 0)
+            </Action>
+        </Macro>
+        <Macro Name="3">
+            <Event Name="CommandFusion.DigitalPress_100" />
+            <Action Name="3">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 00AC 0013 00AC 0013 04A2 0158 0057 0013 0D34', 4, 0)
+            </Action>
+        </Macro>
+        <Macro Name="15">
+            <Event Name="CommandFusion.DigitalPress_101" />
+            <Action Name="1">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AC 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 00AC 0013 00AC 0013 00AC 0013 00AC 0013 04A1 0158 0057 0013 0D33', 4, 0)
+            </Action>
+            <Action Name="5">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 0057 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 00AD 0013 0057 0013 00AD 0013 04A2 0158 0057 0013 0D35', 4, 0)
+            </Action>
+        </Macro>
+        <Macro Name="26">
+            <Event Name="CommandFusion.DigitalRelease_102" />
+            <Action Name="2">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0056 0013 00AC 0013 0057 0013 0057 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0057 0013 0056 0013 00AC 0013 00AC 0013 00AC 0013 04F7 0158 0057 0013 0D33', 4, 0)
+            </Action>
+            <Action Name="6">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0057 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 00AD 0013 04F8 0158 0057 0013 0D35', 4, 0)
+            </Action>
+        </Macro>
+        <Macro Name="28">
+            <Event Name="CommandFusion.DigitalPress_103" />
+            <Action Name="2">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0056 0013 00AC 0013 0057 0013 0057 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0057 0013 0056 0013 00AC 0013 00AC 0013 00AC 0013 04F7 0158 0057 0013 0D33', 4, 0)
+            </Action>
+            <Action Name="8">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AD 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 05A6 0158 0057 0013 0D39', 4, 0)
+            </Action>
+        </Macro>
+        <Macro Name="54" Expanded="True">
+            <Action Name="4">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0057 0013 0057 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0056 0013 0057 0013 00AD 0013 00AC 0013 054E 0158 0057 0013 0D34', 4, 0)
+            </Action>
+            <Action Name="5">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 0057 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 00AD  0013 0057 0013 00AD 0013 04A2 0158 0057 0013 0D35', 4, 0)
+            </Action>
+        </Macro>
+        <Macro Name="75" Expanded="True">
+            <Event Name="CommandFusion.DigitalPress_106" />
+            <Action Name="7">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AC 0013 00AC 0013 00AC 0013 0056 0013 0057 0013 0057 0013 0057 0013 0056 0013 0057 0013 0057 0013 0056 0013 0056 0013 00AC 0013 0057 0013 0056 0013 00AC 0013 04A2 0158 0057 0013 0D33', 3, 0)
+            </Action>
+            <Action Name="5">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 0057 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 00AD  0013 0057 0013 00AD 0013 04A2 0158 0057 0013 0D35', 4, 0)
+            </Action>
+        </Macro>
+        <Macro Name="202" Expanded="True">
+            <Event Name="CommandFusion.DigitalRelease_108" />
+            <Action Name="2">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0056 0013 00AC 0013 0057 0013 0057 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0057 0013 0056 0013 00AC 0013 00AC 0013 00AC 0013 04F7 0158 0057 0013 0D33', 4, 0)
+            </Action>
+            <Action Name="0">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0653 0158 0057 0013 0D39', 4, 0)
+            </Action>
+            <Action Name="2">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0056 0013 00AC 0013 0057 0013 0057 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0057 0013 0056 0013 00AC 0013 00AC 0013 00AC 0013 04F7 0158 0057 0013 0D33', 4, 0)
+            </Action>
+        </Macro>
+        <Macro Name="207" Expanded="True">
+            <Event Name="CommandFusion.DigitalPress_107" />
+            <Action Name="2">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0056 0013 00AC 0013 0057 0013 0057 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0057 0013 0056 0013 00AC 0013 00AC 0013 00AC 0013 04F7 0158 0057 0013 0D33', 4, 0)
+            </Action>
+            <Action Name="0">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0653 0158 0057 0013 0D39', 4, 0)
+            </Action>
+            <Action Name="7">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AC 0013 00AC 0013 00AC 0013 0056 0013 0057 0013 0057 0013 0057 0013 0056 0013 0057 0013 0057 0013 0056 0013 0056 0013 00AC 0013 0057 0013 0056 0013 00AC 0013 04A2 0158 0057 0013 0D33', 3, 0)
+            </Action>
+        </Macro>
+        <Macro Name="208" Expanded="True">
+            <Action Name="2">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0056 0013 00AC 0013 0057 0013 0057 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0057 0013 0056 0013 00AC 0013 00AC 0013 00AC 0013 04F7 0158 0057 0013 0D33', 4, 0)
+            </Action>
+            <Action Name="0">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0653 0158 0057 0013 0D39', 4, 0)
+            </Action>
+            <Action Name="8">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AD 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 05A6 0158 0057 0013 0D39', 4, 0)
+            </Action>
+        </Macro>
+        <Macro Name="211" Expanded="True">
+            <Event Name="CommandFusion.DigitalRelease_104" />
+            <Action Name="2">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0056 0013 00AC 0013 0057 0013 0057 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0057 0013 0056 0013 00AC 0013 00AC 0013 00AC 0013 04F7 0158 0057 0013 0D33', 4, 0)
+            </Action>
+            <Action Name="1">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AC 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 00AC 0013 00AC 0013 00AC 0013 00AC 0013 04A1 0158 0057 0013 0D33', 4, 0)
+            </Action>
+            <Action Name="1">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AC 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 00AC 0013 00AC 0013 00AC 0013 00AC 0013 04A1 0158 0057 0013 0D33', 4, 0)
+            </Action>
+        </Macro>
+        <Macro Name="527" Expanded="True">
+            <Event Name="CommandFusion.DigitalRelease_105" />
+            <Action Name="5">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 0057 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 00AD  0013 0057 0013 00AD 0013 04A2 0158 0057 0013 0D35', 4, 0)
+            </Action>
+            <Action Name="2">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0056 0013 00AC 0013 0057 0013 0057 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0057 0013 0056 0013 00AC 0013 00AC 0013 00AC 0013 04F7 0158 0057 0013 0D33', 4, 0)
+            </Action>
+            <Action Name="7">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AC 0013 00AC 0013 00AC 0013 0056 0013 0057 0013 0057 0013 0057 0013 0056 0013 0057 0013 0057 0013 0056 0013 0056 0013 00AC 0013 0057 0013 0056 0013 00AC 0013 04A2 0158 0057 0013 0D33', 3, 0)
+            </Action>
+        </Macro>
+        <Macro Name="532" Expanded="True">
+            <Action Name="5">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 0057 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 00AD  0013 0057 0013 00AD 0013 04A2 0158 0057 0013 0D35', 4, 0)
+            </Action>
+            <Action Name="3">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 00AC 0013 00AC 0013 04A2 0158 0057 0013 0D34', 4, 0)
+            </Action>
+            <Action Name="2">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0056 0013 00AC 0013 0057 0013 0057 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0057 0013 0056 0013 00AC 0013 00AC 0013 00AC 0013 04F7 0158 0057 0013 0D33', 4, 0)
+            </Action>
+        </Macro>
+        <Macro Name="OFF">
+            <Event Name="HTTP.All-Off" />
+            <Action>
+                EventGhost.NewJumpIf(XmlIdLink(127), 2, True)
+            </Action>
+            <Action Name="Yamaha-OFF">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0154 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FC 0154 0055 0016 0E75', 4, 0)
+            </Action>
+        </Macro>
+    </Folder>
+    <Folder Name="TV">
+        <Macro Name="Power" id="119">
+            <Event Name="HTTP.TV-power" />
+            <Event Name="USB_UIRT.NEC.106F8876" />
+            <Action Name="TV-power">
+                USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0158 00AE 0016 0017 0016 0042 0017 0016 0017 0017 0016 0042 0016 0017 0016 0017 0016 0017 0017 0042 0016 0043 0016 0042 0017 0042 0016 0043 0016 0042 0017 0042 0016 0042 0017 0017 0016 0042 0017 0042 0016 0042 0017 0016 0017 0016 0017 0016 0017 0017 0016 0042 0016 0017 0016 0017 0016 0017 0017 0042 0016 0043 0016 0042 0017 003F 0015 0566 0158 0057 0015 0E49', 4, 0)
+            </Action>
+        </Macro>
+        <Macro Name="TV-ON" id="123">
+            <Action>
+                System.RegistryQuery(2147483650L, u'SOFTWARE\\EventGhost', u'TV-ON', 2, u'on')
+            </Action>
+            <Action>
+                EventGhost.NewJumpIf(XmlIdLink(119), 1, True)
+            </Action>
+            <Action>
+                EventGhost.NewJumpIf(XmlIdLink(133), 2, True)
+            </Action>
+        </Macro>
+        <Macro Name="TV-OFF" id="127" Expanded="True">
+            <Action>
+                System.RegistryQuery(2147483650L, u'SOFTWARE\\EventGhost', u'TV-ON', 2, u'on')
+            </Action>
+            <Action>
+                EventGhost.NewJumpIf(XmlIdLink(119), 0, True)
+            </Action>
+            <Action>
+                EventGhost.NewJumpIf(XmlIdLink(136), 2, True)
+            </Action>
+        </Macro>
+        <Macro Name="TV codes" Expanded="True">
+            <Action Name="7">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AC 0013 00AC 0013 00AC 0013 0056 0013 0057 0013 0057 0013 0057 0013 0056 0013 0057 0013 0057 0013 0056 0013 0056 0013 00AC 0013 0057 0013 0056 0013 00AC 0013 04A2 0158 0057 0013 0D33', 3, 0)
+            </Action>
+        </Macro>
+        <Macro Name="set TV ON" id="133" Expanded="True">
+            <Action>
+                System.RegistryChange(2147483650L, u'SOFTWARE\\EventGhost', u'TV-ON', 0, 1, u'on')
+            </Action>
+            <Action>
+                EventGhost.ShowOSD(u'TV ON', u'0;-24;0;0;0;700;0;0;0;1;0;0;2;32;Arial', (255, 255, 255), (0, 0, 0), 0, (0, 0), 0, 3.0, False)
+            </Action>
+        </Macro>
+        <Macro Name="set TV OFF" id="136" Expanded="True">
+            <Action>
+                System.RegistryChange(2147483650L, u'SOFTWARE\\EventGhost', u'TV-ON', 0, 1, u'off')
+            </Action>
+            <Action>
+                EventGhost.ShowOSD(u'TV OFF', u'0;-37;0;0;0;700;0;0;0;238;3;2;1;34;Arial', (255, 255, 255), (0, 0, 0), 0, (100, 100), 0, 3.0, False)
+            </Action>
+        </Macro>
+        <Macro Name="Toggle TV ON/OFF" Expanded="True">
+            <Event Name="USB_UIRT.NEC.247FB846" />
+            <Action>
+                System.RegistryQuery(2147483650L, u'SOFTWARE\\EventGhost', u'TV-ON', 2, u'on')
+            </Action>
+            <Action>
+                EventGhost.NewJumpIf(XmlIdLink(136), 0, False)
+            </Action>
+            <Action>
+                EventGhost.NewJumpIf(XmlIdLink(133), 2, True)
+            </Action>
+        </Macro>
+    </Folder>
+    <Folder Name="Yamaha">
+        <Macro Name="OFF" id="145">
+            <Event Name="CommandFusion.DigitalPress_10" />
+            <Event Name="Main.Yamaha.off" />
+            <Action Name="Yamaha-OFF">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0154 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FC 0154 0055 0016 0E75', 4, 0)
+            </Action>
+            <Action>
+                Winamp.Stop()
+            </Action>
+        </Macro>
+        <Macro Name="Cable">
+            <Event Name="CommandFusion.DigitalRelease_6" />
+            <Action Name="Yamaha-ON">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FB 0153 0055 0016 0E73', 4, 0)
+            </Action>
+            <Action Name="Yamaha-DTV?CBL">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 05FB 0153 0055 0016 0E74', 4, 0)
+            </Action>
+        </Macro>
+        <Macro Name="Vol+">
+            <Event Name="CM11A.A6.On" />
+            <Event Name="X10.VolumeUp" />
+            <Event Name="HTTP.MASTER_VOL_UP" />
+            <Event Name="TCP.WEB-Vol+" />
+            <Event Name="USB_UIRT.Unknown.1777FFF758" />
+            <Event Name="HTTP.vol " />
+            <Event Name="CommandFusion.DigitalRelease_4" />
+            <Event Name="HTTP.VolUp" />
+            <Event Name="HTTP.Y.volup" />
+            <Event Name="TCP.Vol+" />
+            <Event Name="HTTP.radio.volup" />
+            <Event Name="HTTP.rad.volup" />
+            <Event Name="TCP.Volup" />
+            <Action Name="Vol+">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FC 0154 0055 0016 0E75', 9, 5)
+            </Action>
+        </Macro>
+        <Macro Name="Vol-" Expanded="True">
+            <Event Name="TCP.WEB-Vol-" />
+            <Event Name="CM11A.A6.Off" />
+            <Event Name="X10.VolumeDown" />
+            <Event Name="HTTP.MASTER_VOL_DOWN" />
+            <Event Name="USB_UIRT.Unknown.175FFFF7D0" />
+            <Event Name="HTTP.vol-" />
+            <Event Name="CommandFusion.DigitalRelease_3" />
+            <Event Name="HTTP.VolDown" />
+            <Event Name="HTTP.Y.voldown" />
+            <Event Name="TCP.Vol-" />
+            <Event Name="HTTP.radio.voldown" />
+            <Event Name="HTTP.rad.voldown" />
+            <Event Name="TCP.Voldown" />
+            <Action Name="Vol-">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0154 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FC 0154 0055 0016 0E77', 10, 5)
+            </Action>
+        </Macro>
+        <Macro Name="USB-UIRT: Transmit IR">
+            <Action Name="stereo">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 05FC 0154 0055 0016 0E75', 4, 0)
+            </Action>
+            <Action Name="cd">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FC 0153 0055 0016 0E75', 4, 0)
+            </Action>
+            <Action Name="vcr">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 05FC 0154 0055 0016 0E76', 4, 0)
+            </Action>
+            <Action Name="Yamaha-DTV?CBL">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 05FB 0153 0055 0016 0E74', 4, 0)
+            </Action>
+            <Action Name="A speakers">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0154 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 05FD 0154 0056 0016 0E78', 4, 0)
+            </Action>
+            <Action Name="B speakers">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0154 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 05FC 0154 0056 0016 0E77', 4, 0)
+            </Action>
+            <Action Name="Yamaha-ON">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FB 0153 0055 0016 0E73', 4, 0)
+            </Action>
+            <Action Name="3">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 05FC 0153 0055 0016 0E73', 4, 0)
+            </Action>
+            <Action Name="4">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0154 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 05FD 0154 0056 0016 0E77', 4, 0)
+            </Action>
+            <Action Name="5">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0154 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 05FD 0154 0056 0016 0E77', 4, 0)
+            </Action>
+        </Macro>
+        <Macro Name="VCR">
+            <Event Name="HTTP.Y.tv" />
+            <Action>
+                Winamp.Stop()
+            </Action>
+            <Action Name="Yamaha-ON">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FB 0153 0055 0016 0E73', 4, 0)
+            </Action>
+            <Action Name="vcr">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 05FC 0154 0055 0016 0E76', 4, 0)
+            </Action>
+        </Macro>
+        <Macro Name="Mute">
+            <Event Name="USB_UIRT.Unknown.17D7FFF7F8" />
+            <Event Name="HTTP.Radio_VOL_MUTE" />
+            <Event Name="HTTP.mute" />
+            <Event Name="CommandFusion.DigitalRelease_5" />
+            <Event Name="HTTP.Mute" />
+            <Event Name="HTTP.Y.mute" />
+            <Event Name="Android.PhoneState.IDLE" />
+            <Event Name="Android.PhoneState.OFFHOOK" />
+            <Action>
+                CommandFusion.DigitalPress(5)
+            </Action>
+            <Action Name="Mute">
+                USB_UIRT.TransmitIR(u'0000 006C 0022 0002 0158 00AC 0015 0017 0015 0041 0015 0016 0015 0041 0015 0041 0015 0041 0015 0041 0015 0016 0015 0041 0015 0016 0015 0041 0015 0016 0015 0016 0015 0016 0015 0016 0015 0042 0015 0017 0015 0017 0015 0041 0015 0041 0015 0041 0015 0016 0015 0016 0015 0017 0015 0041 0015 0041 0015 0017 0015 0016 0015 0016 0015 0041 0015 0041 0015 0041 0015 0609 0158 0057 0015 0E69', 4, 0)
+            </Action>
+        </Macro>
+        <Macro Name="A speakers">
+            <Event Name="HTTP.Radio__Red" />
+            <Event Name="HTTP.Aspeakers" />
+            <Event Name="CommandFusion.DigitalRelease_2" />
+            <Event Name="HTTP.Biuro" />
+            <Event Name="HTTP.Y.biuro" />
+            <Event Name="HTTP.biuro.biuro" />
+            <Event Name="Main.biuro.biuro" />
+            <Action Name="A speakers">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0154 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 05FD 0154 0056 0016 0E78', 4, 0)
+            </Action>
+        </Macro>
+        <Macro Name="B speakers">
+            <Event Name="CommandFusion.DigitalRelease_1" />
+            <Event Name="HTTP.Radio__Green" />
+            <Event Name="HTTP.Bspeakers" />
+            <Event Name="HTTP.Salon" />
+            <Event Name="HTTP.Y.salon" />
+            <Event Name="HTTP.salon.salon" />
+            <Event Name="Main.salon.salon" />
+            <Action Name="B speakers">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0154 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 05FC 0154 0056 0016 0E77', 4, 0)
+            </Action>
+        </Macro>
+        <Folder Name="Pinnacle">
+            <Macro Name="USB-UIRT: Transmit IR" Expanded="True">
+                <Action>
+                    USB_UIRT.TransmitIR(u'0000 006d 0000 000c 0006 0119 0006 00ba 0006 00ba 0006 00ba 0006 0119 0006 0119 0006 00ba 0006 00ba 0006 0119 0006 00ba 0006 00ba 0006 0834', 4, 0)
+                </Action>
+            </Macro>
+        </Folder>
+        <Macro Name="Stereo">
+            <Event Name="HTTP.Radio__Yellow" />
+            <Action Name="stereo">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 05FC 0154 0055 0016 0E75', 4, 0)
+            </Action>
+        </Macro>
+        <Macro Name="CD">
+            <Action Name="Yamaha-ON">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FB 0153 0055 0016 0E73', 4, 0)
+            </Action>
+            <Action Name="cd">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FC 0153 0055 0016 0E75', 4, 0)
+            </Action>
+        </Macro>
+        <Macro Name="DVD" id="238">
+            <Event Name="HTTP.Radio" />
+            <Action Name="Yamaha-ON">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FB 0153 0055 0016 0E73', 4, 0)
+            </Action>
+            <Action Name="Yamaha-DVD">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0154 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0016 0016 05FC 0154 0055 0016 0E74', 4, 0)
+            </Action>
+        </Macro>
+        <Macro Name="MD-CDR">
+            <Event Name="CommandFusion.DigitalPress_8" />
+            <Action Name="Yamaha-ON">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FB 0153 0055 0016 0E73', 4, 0)
+            </Action>
+            <Action Name="MD-CDR">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0154 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0016 0016 05FD 0154 0056 0016 0E79', 4, 0)
+            </Action>
+        </Macro>
+    </Folder>
+    <Folder Name="Motorola">
+        <Folder Name="Buttons" Expanded="True">
+            <Macro Name="1">
+                <Event Name="X10.Num1" />
+                <Event Name="HTTP.CBL-Num1" />
+                <Event Name="HTTP.Num1" />
+                <Event Name="TCP.WEB-1" />
+                <Event Name="USB_UIRT.NEC.109E0678" />
+                <Action Name="1">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AC 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 00AC 0013 00AC 0013 00AC 0013 00AC 0013 04A1 0158 0057 0013 0D33', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="2">
+                <Event Name="HTTP.Num2" />
+                <Event Name="HTTP.CBL-Num2" />
+                <Event Name="X10.Num2" />
+                <Event Name="TCP.WEB-2" />
+                <Event Name="USB_UIRT.NEC.109E4A34" />
+                <Action Name="2">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0056 0013 00AC 0013 0057 0013 0057 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0057 0013 0056 0013 00AC 0013 00AC 0013 00AC 0013 04F7 0158 0057 0013 0D33', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="3">
+                <Event Name="HTTP.CBL-Num3" />
+                <Event Name="HTTP.Num3" />
+                <Event Name="X10.Num3" />
+                <Event Name="TCP.WEB-3" />
+                <Event Name="USB_UIRT.NEC.109E4E30" />
+                <Action Name="3">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 00AC 0013 00AC 0013 04A2 0158 0057 0013 0D34', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="4">
+                <Event Name="X10.Num4" />
+                <Event Name="HTTP.Num4" />
+                <Event Name="HTTP.CBL-Num4" />
+                <Event Name="TCP.WEB-4" />
+                <Event Name="USB_UIRT.NEC.109E0A74" />
+                <Action Name="4">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0057 0013 0057 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0056 0013 0057 0013 00AD 0013 00AC 0013 054E 0158 0057 0013 0D34', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="5">
+                <Event Name="X10.Num5" />
+                <Event Name="HTTP.Num5" />
+                <Event Name="HTTP.CBL-Num5" />
+                <Event Name="TCP.WEB-5" />
+                <Event Name="USB_UIRT.NEC.109E027C" />
+                <Action Name="5">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 0057 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 00AD  0013 0057 0013 00AD 0013 04A2 0158 0057 0013 0D35', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="6">
+                <Event Name="X10.Num6" />
+                <Event Name="HTTP.CBL-Num6" />
+                <Event Name="HTTP.Num6" />
+                <Event Name="TCP.WEB-6" />
+                <Event Name="USB_UIRT.NEC.109E0E70" />
+                <Action Name="6">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0057 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 00AD 0013 04F8 0158 0057 0013 0D35', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="7">
+                <Event Name="X10.Num7" />
+                <Event Name="HTTP.Num7" />
+                <Event Name="HTTP.CBL-Num7" />
+                <Event Name="TCP.WEB-7" />
+                <Event Name="USB_UIRT.NEC.109E2658" />
+                <Action Name="7">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 00AD 0013 00AD 0013 00AD 0013 04A3 0158 0057 0013 0D38', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="8">
+                <Event Name="X10.Num8" />
+                <Event Name="HTTP.CBL-Num8" />
+                <Event Name="HTTP.Num8" />
+                <Event Name="TCP.WEB-8" />
+                <Event Name="USB_UIRT.NEC.109E2A54" />
+                <Action Name="8">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AD 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 05A6 0158 0057 0013 0D39', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="9">
+                <Event Name="X10.Num9" />
+                <Event Name="HTTP.Num9" />
+                <Event Name="HTTP.CBL-Num9" />
+                <Event Name="TCP.WEB-9" />
+                <Event Name="USB_UIRT.NEC.109E225C" />
+                <Action Name="9">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AD 0013 00AD 0013 0057 0013 0057 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 00AD 0013 00AD 0013 0057 0013 04A3 0158 0057 0013 0D38', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="0">
+                <Event Name="X10.Num0" />
+                <Event Name="HTTP.Num0" />
+                <Event Name="HTTP.CBL-Num0" />
+                <Event Name="TCP.WEB-0" />
+                <Event Name="USB_UIRT.NEC.109E6618" />
+                <Action Name="0">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0653 0158 0057 0013 0D39', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="right">
+                <Event Name="HTTP.CBL-RIGHT" />
+                <Event Name="USB_UIRT.NEC.109E6E10" />
+                <Action Name="right">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 00AD 0013 00AD 0013 0057 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0056 0013 0057 0013 0057 0013 00AD 0013 00AD 0013 0057 0013 03F6 0158 0057 0013 0D35', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="up">
+                <Event Name="HTTP.CBL-UP" />
+                <Event Name="USB_UIRT.NEC.109E6A14" />
+                <Action Name="up">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0057 0013 0057 0013 00AC 0013 0057 0013 00AC 0013 00AC 0013 0057 0013 0057 0013 0056 0013 0056 0013 0057 0013 0057 0013 00AD 0013 0057 0013 0057 0013 00AC 0013 04A2 0158 0057 0013 0D34', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="down">
+                <Event Name="HTTP.CBL-DOWN" />
+                <Event Name="USB_UIRT.NEC.109E126C" />
+                <Action Name="down">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 0057 0013 00AD 0013 0057 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 04A3 0158 0057 0013 0D37', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="left">
+                <Event Name="HTTP.CBL-Left" />
+                <Event Name="USB_UIRT.NEC.109E1668" />
+                <Action Name="left">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0057 0013 00AD 0013 00AC 0013 0056 0013 00AD 0013 00AC 0013 0056 0013 0056 0013 0057 0013 0057 0013 0056 0013 0056 0013 00AD 0013 00AC 0013 00AD 0013 0056 0013 03F6 0158 0057 0013 0D35', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="Power ON/OFF">
+                <Event Name="TCP.WEB-power" />
+                <Event Name="USB_UIRT.NEC.109E7A0-enter" />
+                <Action Name="Motorola-Power">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0056 0013 00AC 0013 0057 0013 00AC 0013 0056 0013 0057 0013 0057 0013 0057 0013 0057 0013 0056 0013 0057 0013 0056 0013 0057 0013 00AC 0013 00AC 0013 0056 0013 04F8 0158 0057 0013 0D33', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="select">
+                <Event Name="HTTP.CBL-Select" />
+                <Event Name="USB_UIRT.Unknown.17DFFFD7D8" Enabled="False" />
+                <Event Name="USB_UIRT.NEC.109E1E60" />
+                <Action Name="select">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AC 0013 0057 0013 0056 0013 0056 0013 00AC 0013 0056 0013 0056 0013 0056 0013 0056 0013 0057 0013 0057 0013 0057 0013 0056 0013 00AC 0013 00AC 0013 00AC 0013 04A1 0158 0057 0013 0D33', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="Ch+">
+                <Event Name="HTTP.PageUp" />
+                <Event Name="X10.ChannelUp" />
+                <Event Name="HTTP.TV-CH_UP" />
+                <Event Name="TCP.WEB-Ch+" />
+                <Event Name="USB_UIRT.NEC.109E5628" />
+                <Event Name="CommandFusion.DigitalPress_55" />
+                <Action Name="Motorola-Ch+">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 00AD 0013 0057 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 00AD 0013 0057 0013 04A2 0158 0057 0013 0D35', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="Ch-">
+                <Event Name="X10.ChannelDown" />
+                <Event Name="HTTP.CBL-CH_DOWN" />
+                <Event Name="TCP.WEB-Ch-" />
+                <Event Name="USB_UIRT.NEC.109E7608" />
+                <Event Name="CommandFusion.DigitalPress_56" />
+                <Action Name="Motorola-Ch-">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0057 0013 0057 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 054F 0158 0057 0013 0D37', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="menu">
+                <Event Name="HTTP.CBL-Menu" />
+                <Event Name="USB_UIRT.NEC.109E3648" />
+                <Action Name="menu">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 0057 0013 0057 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 00AD 0013 0057 0013 04A3 0158 0057 0013 0D37', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="guide">
+                <Event Name="HTTP.CBL-Guide" />
+                <Event Name="USB_UIRT.NEC.109E3A44" />
+                <Action Name="guide">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 00AD 0013 00AD 0013 04A2 0158 0057 0013 0D36', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="info">
+                <Event Name="HTTP.CBL-Info" />
+                <Event Name="USB_UIRT.NEC.109E017E" />
+                <Action Name="info">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 00AD 0013 044C 0158 0057 0013 0D35', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="exit">
+                <Event Name="USB_UIRT.NEC.109E4638" />
+                <Action Name="exit">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AD 0013 0057 0013 00AD 0013 0057 0013 0057 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 00AD 0013 00AD 0013 04A3 0158 0057 0013 0D38', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="skip30">
+                <Event Name="TCP.WEB-A-B" />
+                <Event Name="HTTP.CBL-SKIP" />
+                <Event Name="USB_UIRT.NEC.109E413E" />
+                <Action Name="30sec+">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AD 0013 00AD 0013 00AD 0013 00AD 0013 00AD 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 00AD 0013 00AD 0013 034A 0158 0057 0013 0D39', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="play">
+                <Event Name="HTTP.CBL-PLAY" />
+                <Event Name="USB_UIRT.NEC.109E611E" />
+                <Action Name="play">
+                    USB_UIRT.TransmitIR(u'0000 006C 000C 0002 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 00AD 0013 0057 0013 04A3 0158 0057 0013 0D36', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="rew">
+                <Event Name="HTTP.CBL-REW" />
+                <Event Name="USB_UIRT.Unknown.175FFF7D78" />
+                <Event Name="USB_UIRT.NEC.109E1A64" />
+                <Action Name="rew">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AD 0013 0057 0013 00AD 0013 00AD 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 0057 0013 0057 0013 04A4 0158 0057 0013 0D3A', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="fwd">
+                <Event Name="HTTP.CBL-FWD" />
+                <Event Name="USB_UIRT.NEC.109E7E00" />
+                <Action Name="ffwd">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AD 0013 00AD 0013 0057 0013 00AD 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 0057 0013 04A3 0158 0057 0013 0D37', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="pause">
+                <Event Name="USB_UIRT.NEC.109E5E20" />
+                <Action Name="pause">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AC 0013 00AC 0013 00AD 0013 00AC 0013 00AC 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0056 0013 0057 0013 04A2 0158 0057 0013 0D34', 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="stop">
+                <Event Name="USB_UIRT.NEC.109E3E40" />
+                <Action Name="stop">
+                    USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 0057 0013 0057 0013 00AC 0013 00AC 0013 00AC 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AC 0013 0057 0013 04A2 0158 0057 0013 0D35', 4, 0)
+                </Action>
+            </Macro>
+        </Folder>
+        <Macro Name="USB-UIRT: Transmit IR">
+            <Action Name="3">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 00AC 0013 00AC 0013 04A2 0158 0057 0013 0D34', 4, 0)
+            </Action>
+            <Action Name="4">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0057 0013 0057 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0056 0013 0057 0013 00AD 0013 00AC 0013 054E 0158 0057 0013 0D34', 4, 0)
+            </Action>
+            <Action Name="5">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 0057 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 00AD 0013 0057 0013 00AD 0013 04A2 0158 0057 0013 0D35', 4, 0)
+            </Action>
+            <Action Name="6">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0057 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 00AD 0013 04F8 0158 0057 0013 0D35', 4, 0)
+            </Action>
+            <Action Name="7">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 00AD 0013 00AD 0013 00AD 0013 04A3 0158 0057 0013 0D38', 4, 0)
+            </Action>
+            <Action Name="8">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AD 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 05A6 0158 0057 0013 0D39', 4, 0)
+            </Action>
+            <Action Name="9">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AD 0013 00AD 0013 0057 0013 0057 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 00AD 0013 00AD 0013 0057 0013 04A3 0158 0057 0013 0D38', 4, 0)
+            </Action>
+            <Action Name="ffwd">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AD 0013 00AD 0013 0057 0013 00AD 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 0057 0013 04A3 0158 0057 0013 0D37', 4, 0)
+            </Action>
+            <Action Name="rew">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AD 0013 0057 0013 00AD 0013 00AD 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 0057 0013 0057 0013 04A4 0158 0057 0013 0D3A', 4, 0)
+            </Action>
+            <Action Name="play">
+                USB_UIRT.TransmitIR(u'0000 006C 000C 0002 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 00AD 0013 0057 0013 04A3 0158 0057 0013 0D36', 4, 0)
+            </Action>
+            <Action Name="guide">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 00AD 0013 00AD 0013 04A2 0158 0057 0013 0D36', 4, 0)
+            </Action>
+            <Action Name="menu">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 0057 0013 0057 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 00AD 0013 0057 0013 04A3 0158 0057 0013 0D37', 4, 0)
+            </Action>
+            <Action Name="info">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 00AD 0013 044C 0158 0057 0013 0D35', 4, 0)
+            </Action>
+            <Action Name="select">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AC 0013 0057 0013 0056 0013 0056 0013 00AC 0013 0056 0013 0056 0013 0056 0013 0056 0013 0057 0013 0057 0013 0057 0013 0056 0013 00AC 0013 00AC 0013 00AC 0013 04A1 0158 0057 0013 0D33', 4, 0)
+            </Action>
+            <Action Name="up">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0057 0013 0057 0013 00AC 0013 0057 0013 00AC 0013 00AC 0013 0057 0013 0057 0013 0056 0013 0056 0013 0057 0013 0057 0013 00AD 0013 0057 0013 0057 0013 00AC 0013 04A2 0158 0057 0013 0D34', 4, 0)
+            </Action>
+            <Action Name="down">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 0057 0013 00AD 0013 0057 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 04A3 0158 0057 0013 0D37', 4, 0)
+            </Action>
+            <Action Name="left">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0057 0013 00AD 0013 00AC 0013 0056 0013 00AD 0013 00AC 0013 0056 0013 0056 0013 0057 0013 0057 0013 0056 0013 0056 0013 00AD 0013 00AC 0013 00AD 0013 0056 0013 03F6 0158 0057 0013 0D35', 4, 0)
+            </Action>
+            <Action Name="right">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 00AD 0013 00AD 0013 0057 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0056 0013 0057 0013 0057 0013 00AD 0013 00AD 0013 0057 0013 03F6 0158 0057 0013 0D35', 4, 0)
+            </Action>
+            <Action Name="exit">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AD 0013 0057 0013 00AD 0013 0057 0013 0057 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 0057 0013 00AD 0013 00AD 0013 04A3 0158 0057 0013 0D38', 4, 0)
+            </Action>
+            <Action Name="stop">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AD 0013 0057 0013 0057 0013 00AC 0013 00AC 0013 00AC 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AC 0013 0057 0013 04A2 0158 0057 0013 0D35', 4, 0)
+            </Action>
+            <Action Name="pause">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AC 0013 00AC 0013 00AD 0013 00AC 0013 00AC 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0056 0013 0057 0013 04A2 0158 0057 0013 0D34', 4, 0)
+            </Action>
+            <Action Name="30sec+">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AD 0013 00AD 0013 00AD 0013 00AD 0013 00AD 0013 00AD 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 00AD 0013 00AD 0013 00AD 0013 034A 0158 0057 0013 0D39', 4, 0)
+            </Action>
+            <Action Name="2">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0056 0013 00AC 0013 0057 0013 0057 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0057 0013 0056 0013 00AC 0013 00AC 0013 00AC 0013 04F7 0158 0057 0013 0D33', 4, 0)
+            </Action>
+            <Action Name="1">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AC 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 00AC 0013 00AC 0013 00AC 0013 00AC 0013 04A1 0158 0057 0013 0D33', 4, 0)
+            </Action>
+            <Action Name="0">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0653 0158 0057 0013 0D39', 4, 0)
+            </Action>
+        </Macro>
+    </Folder>
+    <Macro Name="Decrease Volume">
+        <Event Name="VolumeDown" />
+        <Action>
+            System.ChangeMasterVolumeBy(-2.0, u'SPDIF Interface (TX1) (VIA High')
+        </Action>
+        <Action>
+            EventGhost.AutoRepeat(0.59999999999999998, 0.29999999999999999, 0.01, 3.0)
+        </Action>
+    </Macro>
+    <Macro Name="Increase Volume">
+        <Event Name="VolumeUp" />
+    </Macro>
+    <Folder Name="Kominek">
+        <Macro Name="SerialRECVD" Expanded="True">
+            <Event Name="Serial.*" />
+            <Action Name="SerialRCVD">
+                EventGhost.PythonScript(u'import datetime\nimport os\nimport sys\nnum=eg.event.suffix\nlistnum = num.split(".")\nco = listnum[0].strip()\nile = "nic"\nif co=="Kominek":\n    ile=listnum[1].strip()\n    if len(ile)==4 :\n        #print "usatwiam"\n        eg.plugins.Webserver.SetPersistentValue("temp",ile[:2],False,False)       \n    if len(ile)==1 :\n        #print "usatwiam on off"\n        eg.plugins.Webserver.SetPersistentValue("kominek",ile,False,False)\nif co=="Tempout":\n    ile = listnum[1].strip()\n    num=int(ile)\n    temp=num/100\n    hum=num%100\n    stemp=str(temp)\n    shum=str(hum)\n    eg.plugins.Webserver.SetPersistentValue("tempout",stemp,False,False)\n    eg.plugins.Webserver.SetPersistentValue("humout",shum,False,False)\nprint co \nprint ile\n')
+            </Action>
+        </Macro>
+        <Macro Name="Kominek 20">
+            <Event Name="HTTP.X10.kominek-20" />
+            <Event Name="Cron.Kominek-20" />
+            <Action>
+                Serial.Write(u'A20')
+            </Action>
+            <Action>
+                Webserver.SetPersistentValue(u'term', u'20', False, False)
+            </Action>
+        </Macro>
+        <Macro Name="Kominek 22">
+            <Event Name="HTTP.X10.kominek-22" />
+            <Action>
+                Serial.Write(u'A22')
+            </Action>
+            <Action>
+                Webserver.SetPersistentValue(u'term', u'22', False, False)
+            </Action>
+        </Macro>
+        <Macro Name="Kominek 28">
+            <Event Name="HTTP.X10.kominek-28" />
+            <Event Name="Cron.Kominek-28" />
+            <Action>
+                Webserver.SetPersistentValue(u'term', u'28', False, False)
+            </Action>
+            <Action>
+                Serial.Write(u'A28')
+            </Action>
+        </Macro>
+        <Macro Name="SerialRECVD" Enabled="False" Expanded="True">
+            <Event Name="Serial.Kominek.*" Enabled="False" />
+            <Action Name="SerialRCVD">
+                EventGhost.PythonScript(u'import datetime\nimport os\nimport sys\nnum=eg.event.suffix\nlistnum = num.split(".")\nnumd = listnum[1].strip()\n#print numd\nif len(numd)==5:\n    print numd[1:3]\n    eg.plugins.Webserver.SetPersistentValue("tempout",numd[1:3],False,False) \nif len(numd)==4 :\n    #print "usatwiam"\n    eg.plugins.Webserver.SetPersistentValue("temp",numd[:2],False,False)       \nif len(numd)==1 :\n    #print "usatwiam on off"\n    eg.plugins.Webserver.SetPersistentValue("kominek",numd,False,False)  ')
+            </Action>
+        </Macro>
+        <Macro Name="Kominek termoatat" Expanded="True">
+            <Event Name="HTTP.kominek.*" />
+            <Action>
+                EventGhost.PythonScript(u"suff=eg.event.suffix\nprint suff\nterm=suff[8:len(suff)]\nprint term\neg.plugins.Webserver.SetPersistentValue('term',term) \neg.plugins.Serial.Write(u'A'+term)\n")
+            </Action>
+        </Macro>
+        <Macro Name="Kominek 25">
+            <Event Name="HTTP.X10.kominek-25" />
+            <Action>
+                Serial.Write(u'A25')
+            </Action>
+            <Action>
+                Webserver.SetPersistentValue(u'term', u'25', False, False)
+            </Action>
+        </Macro>
+        <Macro Name="Wylacz kominek" id="457">
+            <Event Name="Timer.kominek_off" />
+            <Event Name="HTTP.X10.kominek-off" />
+            <Event Name="X10_CM15A. Recv, Unknown, A2, Off, " />
+            <Event Name="Main.kom-off" />
+            <Action>
+                Serial.Write(u'A19')
+            </Action>
+            <Action Enabled="False">
+                Speech.TextToSpeech(u'Microsoft Sam', 0, u'v won cham kominehk', 0, 100)
+            </Action>
+            <Action Enabled="False">
+                EventGhost.PythonScript(u'import bluetooth\nimport sys\nbd_addr = "20:13:06:13:00:32"  #"20:13:06:28:36:38"# "20:13:06:09:17:08" #itade address20:13:06:13:00:32\nport = 1\nsock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )\nsock.settimeout(2.0)\nattempts = 0\nwhile attempts &lt; 4:\n    try:\n\tsock.connect((bd_addr, port))\n\tprint \'Connected\'\n\tlitera=str("f")\n\tsock.send(litera)\n\tprint \'Sent data [%s]\'%litera\n\ts=""\n\tdata = sock.recv(1)\n\twhile data != \',\' :\n\t\ts += data\n\t\tdata = sock.recv(1)\n\tprint \'received [%s]\'%s\n\tprint len(s)\n\tsock.close()\n\tbreak\n    except:\n\t\tattempts += 1\n\t\tprint \'not conected\'')
+            </Action>
+            <Action>
+                Webserver.SetPersistentValue(u'term', u'19', False, False)
+            </Action>
+        </Macro>
+        <Macro Name="Kominek na godzine" id="466">
+            <Event Name="HTTP.kominek_on" />
+            <Event Name="HTTP.X10.kominek-on" />
+            <Event Name="SchedulGhost.kawaON" />
+            <Event Name="SchedulGhost.poranek-kominek" />
+            <Event Name="X10_CM15A. Recv, Unknown, A2, On, " />
+            <Event Name="Main.kom-on" />
+            <Action>
+                Timer.TimerAction(u'kominek60', 0, 1, 3600.0, u'kominek_off', False, False, 1, u'00:00:00')
+            </Action>
+            <Action Enabled="False">
+                Android.Map(u'Kominek on')
+            </Action>
+            <Action Enabled="False">
+                EventGhost.PythonScript(u'import bluetooth\nimport sys\nbd_addr = "20:13:06:13:00:32"  #"20:13:06:28:36:38"# "20:13:06:09:17:08" #itade address20:13:06:13:00:32\nport = 1\nsock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )\nsock.settimeout(2.0)\nattempts = 0\nwhile attempts &lt; 4:\n    try:\n\tsock.connect((bd_addr, port))\n\tprint \'Connected\'\n\tlitera=str("o")\n\tsock.send(litera)\n\tprint \'Sent data [%s]\'%litera\n\ts=""\n\tdata = sock.recv(1)\n\twhile data != \',\' :\n\t\ts += data\n\t\tdata = sock.recv(1)\n\tprint \'received [%s]\'%s\n\tprint len(s)\n\tsock.close()\n\tbreak\n    except:\n\t\tattempts += 1\n\t\tprint \'not conected\'')
+            </Action>
+            <Action>
+                Serial.Write(u'A31')
+            </Action>
+            <Action>
+                Webserver.SetPersistentValue(u'term', u'31', False, False)
+            </Action>
+        </Macro>
+        <Macro Name="Kominek-temp" Expanded="True">
+            <Event Name="Timer.tempcheck" />
+            <Event Name="Main.OnInit" Enabled="False" />
+            <Action Enabled="False">
+                Serial.Write(u'A99')
+            </Action>
+            <Action Name="Send term">
+                EventGhost.PythonScript(u"term=eg.plugins.Webserver.GetPersistentValue(u'term', False)\nfor x in range(1,2):\n    eg.plugins.Serial.Write(u'A'+term)\n    #print x\n    eg.plugins.EventGhost.Wait(.5)")
+            </Action>
+        </Macro>
+    </Folder>
+    <Folder Name="X10" Expanded="True">
+        <Macro Name="X10_CM15A: Pump Events">
+            <Event Name="Timer.pump" />
+            <Event Name="X10_CM15A. Recv, RF, A2, On, 0" />
+            <Event Name="X10_CM15A. Recv, Unknown, A2, Off, " />
+            <Action>
+                X10_CM15A.PumpEvents()
+            </Action>
+        </Macro>
+        <Folder Name="Biuro">
+            <Folder Name="Szafa" Enabled="False">
+                <Macro Name="szafa off" Expanded="True">
+                    <Event Name="Timer.szafa pusta" />
+                    <Action>
+                        EventGhost.DisableItem(XmlIdLink(499))
+                    </Action>
+                    <Action>
+                        X10_CM15A.TransmitX10(0, 0, 9, 0, 0)
+                    </Action>
+                    <Action Enabled="False">
+                        EventGhost.Wait(5.0)
+                    </Action>
+                    <Action>
+                        X10_CM15A.PumpEvents()
+                    </Action>
+                    <Action Enabled="False">
+                        EventGhost.EnableItem(XmlIdLink(499))
+                    </Action>
+                    <Action>
+                        Timer.TimerAction(u'Enable szafa', 0, 2, 15.0, u'Enable szafa', False, True, 1, u'00:00:00')
+                    </Action>
+                </Macro>
+                <Macro Name="szafa on" id="499">
+                    <Event Name="X10_CM15A. Recv, Unknown, E1, On, " />
+                    <Event Name="X10_CM15A. Recv, RF, E1, On, -1" />
+                    <Event Name="X10_CM15A. Recv, RF, E1, On, 0" />
+                    <Event Name="X10_CM15A. Recv, Unknown, E2, On, " />
+                    <Action>
+                        X10_CM15A.TransmitX10(0, 0, 9, 1, 20)
+                    </Action>
+                    <Action Name="szafa">
+                        Timer.TimerAction(u'szafa', 0, 0, 600.0, u'szafa pusta', False, False, 1, u'00:00:00')
+                    </Action>
+                </Macro>
+                <Macro Name="Enable: szafa on" Expanded="True">
+                    <Event Name="Timer.Enable szafa" />
+                    <Action>
+                        EventGhost.EnableItem(XmlIdLink(499))
+                    </Action>
+                    <Action>
+                        X10_CM15A.PumpEvents()
+                    </Action>
+                </Macro>
+            </Folder>
+            <Macro Name="On artura lampke">
+                <Event Name="HTTP.artura_on" />
+                <Event Name="HTTP.Artura-ON" />
+                <Event Name="HTTP.X10.artura-on" />
+                <Event Name="Main.artura.ON" />
+                <Action>
+                    Webserver.SetPersistentValue(u'artura', u'ON', False, False)
+                </Action>
+                <Action>
+                    X10_CM15A.TransmitX10(0, 0, 11, 1, 20)
+                </Action>
+                <Action Enabled="False">
+                    Speech.TextToSpeech(u'Microsoft Sam', 0, u"Artur's desk lamp ON", 0, 100)
+                </Action>
+                <Action>
+                    CM11A.X10Command(0, 12, 3, 0)
+                </Action>
+            </Macro>
+            <Macro Name="Off Lampka artura" id="519">
+                <Event Name="HTTP.artura_off" />
+                <Event Name="HTTP.Artura-OFF" />
+                <Event Name="HTTP.X10.artura-off" />
+                <Event Name="Main.artura.OFF" />
+                <Action>
+                    Webserver.SetPersistentValue(u'artura', u'OFF', False, False)
+                </Action>
+                <Action>
+                    X10_CM15A.TransmitX10(0, 0, 11, 0, 0)
+                </Action>
+                <Action Enabled="False">
+                    Speech.TextToSpeech(u'Microsoft Sam', 0, u"Artur's desk lamp OFF", 0, 100)
+                </Action>
+                <Action>
+                    CM11A.X10Command(0, 12, 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="Off gosi lampki" Expanded="True">
+                <Event Name="X10_CM15A. Recv, RF, A9, Off, 0" />
+                <Event Name="X10_CM15A. Recv, RF, A10, Off, 0" />
+                <Event Name="HTTP.gosi_off" />
+                <Event Name="X10_CM15A. Recv, Unknown, A9, Off, " />
+                <Event Name="HTTP.Gosi-OFF" />
+                <Event Name="HTTP.X10.gosi-off" />
+                <Event Name="Main.gosi.OFF" />
+                <Action>
+                    Webserver.SetPersistentValue(u'gosi', u'OFF', False, False)
+                </Action>
+                <Action>
+                    X10_CM15A.TransmitX10(0, 0, 12, 0, 0)
+                </Action>
+                <Action>
+                    CM11A.X10Command(0, 13, 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="On gosi lampki" id="539" Expanded="True">
+                <Event Name="HTTP.gosi_on" />
+                <Event Name="X10_CM15A. Recv, RF, A9, On, 0" />
+                <Event Name="X10_CM15A. Recv, RF, A10, On, 0" />
+                <Event Name="HTTP.Gosi-ON" />
+                <Event Name="HTTP.X10.gosi-on" />
+                <Event Name="Main.gosi.ON" />
+                <Action>
+                    X10_CM15A.TransmitX10(0, 0, 12, 1, 0)
+                </Action>
+                <Action>
+                    Webserver.SetPersistentValue(u'gosi', u'ON', False, False)
+                </Action>
+                <Action>
+                    CM11A.X10Command(0, 13, 3, 0)
+                </Action>
+            </Macro>
+            <Macro Name="Z tylu off">
+                <Action>
+                    X10_CM15A.TransmitX10(0, 1, 3, 0, 0)
+                </Action>
+            </Macro>
+            <Macro Name="Z tylu on">
+                <Action>
+                    X10_CM15A.TransmitX10(0, 1, 3, 1, 10)
+                </Action>
+            </Macro>
+            <Macro Name="Artura On 1">
+                <Event Name="HTTP.Artura1" />
+                <Event Name="HTTP.X10.artura1" />
+                <Action>
+                    EventGhost.NewJumpIf(XmlIdLink(519), 2, True)
+                </Action>
+                <Action>
+                    EventGhost.NewJumpIf(XmlIdLink(499), 2, True)
+                </Action>
+                <Action>
+                    X10_CM15A.TransmitX10(1, 0, 11, 3, 4)
+                </Action>
+            </Macro>
+            <Macro Name="Artura On 2">
+                <Event Name="HTTP.Artura2" />
+                <Event Name="HTTP.X10.artura2" />
+                <Action>
+                    EventGhost.NewJumpIf(XmlIdLink(519), 2, True)
+                </Action>
+                <Action>
+                    EventGhost.NewJumpIf(XmlIdLink(499), 2, True)
+                </Action>
+                <Action>
+                    X10_CM15A.TransmitX10(1, 0, 11, 3, 8)
+                </Action>
+            </Macro>
+            <Macro Name="Artura On 3">
+                <Event Name="HTTP.Artura3" />
+                <Event Name="HTTP.X10.artura3" />
+                <Action>
+                    EventGhost.NewJumpIf(XmlIdLink(519), 2, True)
+                </Action>
+                <Action>
+                    EventGhost.NewJumpIf(XmlIdLink(499), 2, True)
+                </Action>
+                <Action>
+                    X10_CM15A.TransmitX10(1, 0, 11, 3, 14)
+                </Action>
+            </Macro>
+            <Macro Name="Gorna ON">
+                <Event Name="HTTP.X10.sufit-on" />
+                <Event Name="Main.sufit.ON" />
+                <Action>
+                    X10_CM15A.TransmitX10(0, 0, 13, 1, 0)
+                </Action>
+                <Action>
+                    Webserver.SetPersistentValue(u'sufit', u'ON', False, False)
+                </Action>
+            </Macro>
+            <Macro Name="Gorna OFF">
+                <Event Name="HTTP.X10.sufit-off" />
+                <Event Name="Main.sufit.OFF" />
+                <Action>
+                    X10_CM15A.TransmitX10(0, 0, 13, 0, 0)
+                </Action>
+                <Action>
+                    Webserver.SetPersistentValue(u'sufit', u'OFF', False, False)
+                </Action>
+            </Macro>
+            <Macro Name="Gorna+">
+                <Event Name="HTTP.X10.sufit-dim" />
+                <Action>
+                    X10_CM15A.TransmitX10(0, 1, 5, 2, 4)
+                </Action>
+                <Action>
+                    Webserver.SetPersistentValue(u'sufit', u'ON', False, False)
+                </Action>
+            </Macro>
+            <Macro Name="Gorna-">
+                <Event Name="HTTP.X10.suft-bri" />
+                <Action>
+                    X10_CM15A.TransmitX10(0, 1, 5, 3, 4)
+                </Action>
+            </Macro>
+        </Folder>
+        <Folder Name="Kuchnia">
+            <Macro Name="Kuchnia ON">
+                <Event Name="HTTP.X10.stol-on_down" />
+                <Action>
+                    X10_CM15A.TransmitX10(0, 0, 4, 1, 0)
+                </Action>
+            </Macro>
+            <Macro Name="Kuchnia OFF">
+                <Event Name="HTTP.X10.stol-off_down" />
+                <Action>
+                    X10_CM15A.TransmitX10(0, 0, 4, 0, 0)
+                </Action>
+            </Macro>
+            <Macro Name="Na maszynie OFF">
+                <Event Name="CM11A.A14.Off" />
+            </Macro>
+            <Macro Name="Na maszynie ON">
+                <Event Name="CM11A.A14.On" />
+            </Macro>
+        </Folder>
+        <Macro Name="Alloff">
+            <Event Name="X10_CM15A. Recv, RF, A11, Off, 0" />
+            <Event Name="X10_CM15A. Recv, RF, A11, Off, -1" />
+            <Event Name="HTTP.X10.all-off" />
+            <Event Name="Main.alloff.*" />
+            <Action>
+                EventGhost.NewJumpIf(XmlIdLink(457), 2, True)
+            </Action>
+            <Action>
+                EventGhost.NewJumpIf(XmlIdLink(145), 2, True)
+            </Action>
+            <Action>
+                X10_CM15A.TransmitX10(0, 0, 0, 0, 0)
+            </Action>
+            <Action>
+                EventGhost.PythonScript(u'for i in range(0,15):\n    print i\n    eg.plugins.X10_CM15A.TransmitX10(0, 0, i, 0, 0)')
+            </Action>
+        </Macro>
+        <Folder Name="Salon" Expanded="True">
+            <Macro Name="Lampki OFF" Expanded="True">
+                <Event Name="HTTP.X10.lampki-off" />
+                <Event Name="Main.lampki.OFF" />
+                <Action>
+                    X10_CM15A.TransmitX10(1, 0, 3, 0, 0)
+                </Action>
+                <Action>
+                    CM11A.X10Command(0, 4, 4, 0)
+                </Action>
+                <Action Enabled="False">
+                    Speech.TextToSpeech(u'Microsoft Sam', 0, u'gah sheh lampky', 0, 100)
+                </Action>
+                <Action>
+                    X10_CM15A.PumpEvents()
+                </Action>
+            </Macro>
+            <Macro Name="Stojaca OFF" Expanded="True">
+                <Event Name="HTTP.X10.lampa-off" />
+                <Event Name="Main.2230" />
+                <Event Name="Main.lampka.OFF" />
+                <Action>
+                    X10_CM15A.TransmitX10(1, 0, 2, 0, 0)
+                </Action>
+                <Action Enabled="False">
+                    Speech.TextToSpeech(u'Microsoft Sam', 0, u'gah sheh lampke', 0, 100)
+                </Action>
+                <Action>
+                    X10_CM15A.PumpEvents()
+                </Action>
+                <Action>
+                    CM11A.X10Command(0, 3, 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="Stojaca ON" Expanded="True">
+                <Event Name="HTTP.X10.lampa-on" />
+                <Event Name="Main.lampka.ON" />
+                <Action Enabled="False">
+                    Speech.TextToSpeech(u'Microsoft Sam', 0, u'zapahlahm lampke', 0, 100)
+                </Action>
+                <Action>
+                    X10_CM15A.TransmitX10(1, 0, 2, 1, 0)
+                </Action>
+                <Action>
+                    X10_CM15A.PumpEvents()
+                </Action>
+                <Action>
+                    CM11A.X10Command(0, 3, 3, 0)
+                </Action>
+            </Macro>
+            <Macro Name="Lampki ON" Expanded="True">
+                <Event Name="HTTP.X10.lampki-on" />
+                <Event Name="Twilight.sunset" Enabled="False" />
+                <Event Name="SchedulGhost.poranek" Enabled="False" />
+                <Event Name="Main.lampki.ON" />
+                <Action>
+                    X10_CM15A.TransmitX10(1, 0, 3, 1, 0)
+                </Action>
+                <Action Enabled="False">
+                    Speech.TextToSpeech(u'Microsoft Sam', 0, u'zapahlahm lampky', 0, 100)
+                </Action>
+                <Action>
+                    X10_CM15A.PumpEvents()
+                </Action>
+                <Action>
+                    CM11A.X10Command(0, 4, 3, 0)
+                </Action>
+            </Macro>
+            <Macro Name="nowa OFF" Expanded="True">
+                <Event Name="Main.nowa.OFF" />
+                <Action>
+                    X10_CM15A.TransmitX10(1, 0, 5, 0, 0)
+                </Action>
+                <Action Enabled="False">
+                    Speech.TextToSpeech(u'Microsoft Sam', 0, u'gah sheh lampky', 0, 100)
+                </Action>
+                <Action>
+                    X10_CM15A.PumpEvents()
+                </Action>
+                <Action>
+                    CM11A.X10Command(0, 6, 4, 0)
+                </Action>
+            </Macro>
+            <Macro Name="nowa ON" Expanded="True">
+                <Event Name="Main.nowa.ON" />
+                <Action>
+                    X10_CM15A.TransmitX10(1, 0, 5, 1, 0)
+                </Action>
+                <Action Enabled="False">
+                    Speech.TextToSpeech(u'Microsoft Sam', 0, u'gah sheh lampky', 0, 100)
+                </Action>
+                <Action>
+                    X10_CM15A.PumpEvents()
+                </Action>
+                <Action>
+                    CM11A.X10Command(0, 6, 3, 0)
+                </Action>
+                <Action>
+                    CM11A.X10Command(0, 6, 3, 0)
+                </Action>
+            </Macro>
+        </Folder>
+        <Macro Name="Biuro i salon" Expanded="True">
+            <Event Name="HTTP.biuro.*" />
+            <Event Name="HTTP.salon.*" />
+            <Action>
+                EventGhost.PythonScript(u'suff=eg.event.suffix\nprint suff\nnazwa=suff[6:len(suff)]\nprint nazwa\nif (eg.plugins.Webserver.GetPersistentValue(nazwa) == "ON"):\n    eg.plugins.Webserver.SetPersistentValue(nazwa,"OFF")\n    eg.TriggerEvent(nazwa + ".OFF")\n    print "OFF"\nelse: \n    eg.plugins.Webserver.SetPersistentValue(nazwa,"ON") \n    eg.TriggerEvent(nazwa + ".ON")\n    print "ON"')
+            </Action>
+        </Macro>
+        <Macro Name="Status lampek">
+            <Event Name="X10_CM15A.*" />
+            <Action Name="Python status">
+                EventGhost.PythonScript(u'suff=eg.event.suffix\nnazwa=suff[16:len(suff)]\n#print nazwa\nlista = nazwa.split(\',\')\naNum = lista[0].replace(" ", "")\n#print aNum\n#print aNum[:1]\nif aNum[:1] == \'A\' :\n    cody = [\'0\',\'1\',\'2\',\'lampka\',\'lampki\',\'5\',\'nowa\',\'7\',\'8\',\'9\',\'szafa\',\'sufit\',\'artura\',\'gosi\',\'14\']\n    Num = int(aNum[1:])\n    action = lista[1].replace(" ", "")\n    if action == \'On\' :\n        eg.plugins.Webserver.SetPersistentValue(cody[Num], u\'ON\', False, False)\n    else :\n        eg.plugins.Webserver.SetPersistentValue(cody[Num], u\'OFF\', False, False)\n')
+            </Action>
+        </Macro>
+        <Macro Name="szafa on">
+            <Action Enabled="False">
+                X10_CM15A.TransmitX10(0, 0, 9, 1, 20)
+            </Action>
+            <Action>
+                CM11A.X10Command(0, 10, 3, 0)
+            </Action>
+        </Macro>
+        <Macro Name="szafa off">
+            <Action Enabled="False">
+                X10_CM15A.TransmitX10(0, 0, 9, 0, 20)
+            </Action>
+            <Action>
+                CM11A.X10Command(0, 10, 4, 0)
+            </Action>
+        </Macro>
+    </Folder>
+    <Folder Name="muzyka">
+        <Macro Name="radio.offf" id="667" Expanded="True">
+            <Event Name="HTTP.radio.off" />
+            <Event Name="HTTP.Y.off" />
+            <Action Name="OFF-glosniki" Enabled="False">
+                EventGhost.PythonScript(u'lista = [\'biuro\',\'salon\']\neg.globals.Kalibrowane="NO"\nfor item in lista:\n    if (eg.plugins.Webserver.GetPersistentValue(item) == "ON"):\n        eg.plugins.Webserver.SetPersistentValue(item,"OFF")\n        eg.TriggerEvent(item + \'.\' + item)')
+            </Action>
+            <Action>
+                EventGhost.TriggerEvent(u'Yamaha.off', 0.0)
+            </Action>
+            <Action>
+                XBMC2.RemoteStop()
+            </Action>
+        </Macro>
+        <Macro Name="Co gra" Expanded="True">
+            <Event Name="HTTP.radio.*" />
+            <Action>
+                PingPlugin.GetHostsStatus()
+            </Action>
+            <Action>
+                EventGhost.PythonScript(u'suff=eg.event.suffix\n#print suff\nnazwa=suff[6:len(suff)]\n#print nazwa \nif eg.plugins.Webserver.GetPersistentValue(\'boxee\')==\'ON\':\n    lista = [\'kplu\',\'kjzz\',\'trojka\',\'jazz\',\'off\']\n    for item in lista:\n        if (item == nazwa):\n            print \'item:\'+item\n            eg.plugins.Webserver.SetPersistentValue(item,"ON") \n            eg.TriggerEvent(nazwa)\n        else:\n            eg.plugins.Webserver.SetPersistentValue(item,"OFF")\n    if (eg.globals.Kalibrowane == "NO"):\n        eg.globals.Kalibrowane="YES"\n        eg.plugins.Serial.Write(u\'B\')')
+            </Action>
+        </Macro>
+        <Macro Name="3" Expanded="True">
+            <Event Name="HTTP.Trojka" />
+            <Event Name="HTTP.Y.3" />
+            <Event Name="HTTP.radio.trojka" Enabled="False" />
+            <Event Name="Main.trojka" />
+            <Action>
+                XBMC2.JSONRPC(u'Player.Open', u'[{"file":"http://stream.polskieradio.pl/program3"}]', True)
+            </Action>
+            <Action Name="Timer: Stop Winamp">
+                Timer.TimerAction(u'Stop Winamp', 0, 1, 7200.0, u'StopWinamp', False, False, 2, u'00:02:01')
+            </Action>
+            <Action Name="Yamaha-ON">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FB 0153 0055 0016 0E73', 4, 0)
+            </Action>
+            <Action>
+                EventGhost.Wait(1.0)
+            </Action>
+            <Action Name="Yamaha-DTV?CBL">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 05FB 0153 0055 0016 0E74', 4, 0)
+            </Action>
+            <Action Enabled="False">
+                Speech.TextToSpeech(u'Microsoft Anna - English (United States)', 0, u'l will play Trojke  for 2 hours.', 0, 100)
+            </Action>
+            <Action Enabled="False">
+                System.Execute(u'C:\\Program Files (x86)\\Winamp\\winamp.exe', u'http://www.polskieradio.pl/st/program3M.asx', 3, False, 2, u'', False)
+            </Action>
+        </Macro>
+        <Macro Name="1" Expanded="True">
+            <Event Name="HTTP.Jedynka" />
+            <Event Name="HTTP.Y.jedynka" />
+            <Action>
+                XBMC2.JSONRPC(u'Player.Open', u'[{"file":"http://stream.polskieradio.pl/program1"}]', True)
+            </Action>
+            <Action Name="Yamaha-ON">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FB 0153 0055 0016 0E73', 4, 0)
+            </Action>
+            <Action Name="Timer: Stop Winamp">
+                Timer.TimerAction(u'Stop Winamp', 0, 1, 7200.0, u'StopWinamp', False, False, 2, u'00:02:01')
+            </Action>
+            <Action>
+                System.Execute(u'C:\\Program Files (x86)\\Winamp\\winamp.exe', u'http://www.polskieradio.pl/st/program1M.asx', 3, False, 2, u'', False)
+            </Action>
+            <Action>
+                EventGhost.Wait(1.0)
+            </Action>
+            <Action Name="Yamaha-DTV?CBL">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 05FB 0153 0055 0016 0E74', 4, 0)
+            </Action>
+        </Macro>
+        <Macro Name="KPLU" Expanded="True">
+            <Event Name="HTTP.Y.radio" />
+            <Event Name="HTTP.Y.KPLU" />
+            <Event Name="HTTP.radio.kplu" Enabled="False" />
+            <Event Name="Main.kplu" />
+            <Event Name="Cron.KJZZ w niedziele.Splendid" />
+            <Action>
+                XBMC2.JSONRPC(u'Player.Open', u'[{"file":"http://icy1.abacast.com:80/kplu-newsjazzaac-64"}]', True)
+            </Action>
+            <Action Enabled="False">
+                System.Execute(u'C:\\Program Files (x86)\\Winamp\\winamp.exe', u'http://icy1.abacast.com:80/kplu-newsjazzaac-64', 0, False, 2, u'', False)
+            </Action>
+            <Action Name="Timer: Stop Winamp">
+                Timer.TimerAction(u'Stop Winamp', 0, 1, 7200.0, u'StopWinamp', False, False, 2, u'00:02:01')
+            </Action>
+            <Action Name="Yamaha-ON">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FB 0153 0055 0016 0E73', 4, 0)
+            </Action>
+            <Action>
+                EventGhost.Wait(1.0)
+            </Action>
+            <Action Name="Yamaha-DTV?CBL">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 05FB 0153 0055 0016 0E74', 4, 0)
+            </Action>
+            <Action>
+                System.MuteOff(u'Digital Audio (S/PDIF) (2- High')
+            </Action>
+        </Macro>
+        <Macro Name="Galaxy 427" Expanded="True">
+            <Event Name="HTTP.Galaxy" />
+            <Action Name="Yamaha-ON">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FB 0153 0055 0016 0E73', 4, 0)
+            </Action>
+            <Action>
+                EventGhost.Wait(1.0)
+            </Action>
+            <Action Name="Yamaha-DTV?CBL">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 05FB 0153 0055 0016 0E74', 4, 0)
+            </Action>
+            <Action Name="4">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0057 0013 0057 0013 00AD 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0057 0013 0056 0013 0057 0013 00AD 0013 00AC 0013 054E 0158 0057 0013 0D34', 4, 0)
+            </Action>
+            <Action Name="2">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 0056 0013 00AC 0013 0057 0013 0057 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0056 0013 0057 0013 0056 0013 00AC 0013 00AC 0013 00AC 0013 04F7 0158 0057 0013 0D33', 4, 0)
+            </Action>
+            <Action Name="7">
+                USB_UIRT.TransmitIR(u'0000 006C 0012 0002 0158 00AC 0013 00AC 0013 00AC 0013 00AC 0013 0056 0013 0057 0013 0057 0013 0057 0013 0056 0013 0057 0013 0057 0013 0056 0013 0056 0013 00AC 0013 0057 0013 0056 0013 00AC 0013 04A2 0158 0057 0013 0D33', 3, 0)
+            </Action>
+            <Action>
+                Winamp.Stop()
+            </Action>
+        </Macro>
+        <Macro Name="CBC-tuner" Expanded="True">
+            <Event Name="HTTP.Radio-CBC" />
+            <Event Name="HTTP.CBC" />
+            <Action>
+                EventGhost.NewJumpIf(XmlIdLink(238), 2, True)
+            </Action>
+            <Action>
+                EventGhost.NewJumpIf(XmlIdLink(790), 2, True)
+            </Action>
+            <Action Name="Insignia-2">
+                USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0157 00AB 0016 0016 0015 0016 0016 0016 0016 0016 0015 0041 0016 0016 0015 0016 0015 0016 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0016 0016 0041 0015 0016 0015 0041 0015 0016 0016 0016 0016 0016 0015 0016 0016 0041 0015 0016 0016 0041 0015 0016 0016 0041 0015 0041 0016 0040 0016 0041 0015 05C2 0157 0056 0015 0E4A', 4, 0)
+            </Action>
+            <Action>
+                Winamp.Stop()
+            </Action>
+        </Macro>
+        <Macro Name="Jazz" Expanded="True">
+            <Event Name="HTTP.Jazz" />
+            <Event Name="HTTP.Y.JazzPL_down" />
+            <Event Name="HTTP.radio.jazz" Enabled="False" />
+            <Event Name="Main.jazz" />
+            <Action Enabled="False">
+                Winamp.Exit()
+            </Action>
+            <Action Enabled="False">
+                EventGhost.Wait(3.0)
+            </Action>
+            <Action>
+                XBMC2.JSONRPC(u'Player.Open', u'[{"file":"smb://GORSZY/music/jazz.m3u"}]', True)
+            </Action>
+            <Action Enabled="False">
+                System.Execute(u'C:\\Program Files (x86)\\Winamp\\winamp.exe', u'c:\\jazz.m3u', 0, False, 2, u'', False)
+            </Action>
+            <Action Name="Yamaha-ON">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FB 0153 0055 0016 0E73', 4, 0)
+            </Action>
+            <Action>
+                EventGhost.Wait(1.0)
+            </Action>
+            <Action Name="Yamaha-DTV?CBL">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 05FB 0153 0055 0016 0E74', 4, 0)
+            </Action>
+            <Action>
+                EventGhost.Wait(1.0)
+            </Action>
+            <Action>
+                XBMC2.Random()
+            </Action>
+            <Action>
+                EventGhost.Wait(1.0)
+            </Action>
+            <Action>
+                XBMC2.SkipNext()
+            </Action>
+            <Action>
+                EventGhost.Wait(1.0)
+            </Action>
+            <Action>
+                XBMC2.Random()
+            </Action>
+            <Action>
+                XBMC2.SkipNext()
+            </Action>
+        </Macro>
+        <Macro Name="Wsio" Expanded="True">
+            <Event Name="HTTP.Pop" />
+            <Action>
+                System.Execute(u'C:\\Program Files (x86)\\Winamp\\winamp.exe', u'C:\\wsio.m3u', 0, False, 2, u'', False)
+            </Action>
+            <Action Name="Yamaha-ON">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FB 0153 0055 0016 0E73', 4, 0)
+            </Action>
+            <Action>
+                EventGhost.Wait(1.0)
+            </Action>
+            <Action Name="vcr" Enabled="False">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 05FC 0154 0055 0016 0E76', 4, 0)
+            </Action>
+            <Action Name="Yamaha-DTV?CBL">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 05FB 0153 0055 0016 0E74', 4, 0)
+            </Action>
+        </Macro>
+        <Folder Name="Insignia">
+            <Macro Name="Espace-tuner">
+                <Action>
+                    EventGhost.NewJumpIf(XmlIdLink(238), 2, True)
+                </Action>
+                <Action>
+                    EventGhost.NewJumpIf(XmlIdLink(790), 2, True)
+                </Action>
+                <Action Name="Insignia-5">
+                    USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0157 00AD 0015 0016 0016 0016 0016 0016 0015 0016 0016 0041 0015 0016 0016 0016 0016 0016 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0016 0016 0016 0016 0040 0016 0016 0016 0016 0015 0041 0016 0016 0015 0016 0016 0041 0015 0041 0016 0016 0015 0041 0016 0040 0016 0016 0016 0040 0016 05C8 0157 0056 0016 0E57', 4, 0)
+                </Action>
+                <Action>
+                    Winamp.Stop()
+                </Action>
+            </Macro>
+            <Macro Name="KUOW">
+                <Action>
+                    EventGhost.NewJumpIf(XmlIdLink(238), 2, True)
+                </Action>
+                <Action>
+                    EventGhost.NewJumpIf(XmlIdLink(790), 2, True)
+                </Action>
+                <Action Name="Insignia-3">
+                    USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0157 00AD 0015 0016 0016 0016 0016 0016 0015 0016 0016 0041 0015 0016 0016 0016 0016 0016 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0016 0016 0040 0016 0016 0016 0016 0015 0016 0016 0016 0016 0016 0015 0016 0016 0041 0015 0016 0016 0041 0015 0041 0016 0040 0016 05C8 0157 0056 0016 0E57', 4, 0)
+                </Action>
+                <Action>
+                    Winamp.Stop()
+                </Action>
+            </Macro>
+            <Macro Name="KPLU-tuner" Expanded="True">
+                <Event Name="CM11A.A5.Off" />
+                <Event Name="CM11A.A4.On" />
+                <Event Name="USB_UIRT.SIRC20.9AD00" />
+                <Event Name="HTTP.KPLU" />
+                <Action>
+                    EventGhost.NewJumpIf(XmlIdLink(238), 2, True)
+                </Action>
+                <Action>
+                    EventGhost.NewJumpIf(XmlIdLink(790), 2, True)
+                </Action>
+                <Action Name="Insignia-1">
+                    USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0157 00AD 0015 0016 0016 0016 0016 0016 0015 0016 0016 0041 0015 0016 0016 0016 0016 0016 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0016 0015 0041 0016 0016 0015 0016 0016 0016 0016 0016 0015 0016 0016 0016 0016 0040 0016 0016 0016 0040 0016 05C8 0157 0056 0016 0E58', 4, 0)
+                </Action>
+                <Action>
+                    Winamp.Stop()
+                </Action>
+            </Macro>
+            <Macro Name="Smooth" Expanded="True">
+                <Action>
+                    EventGhost.NewJumpIf(XmlIdLink(238), 2, True)
+                </Action>
+                <Action>
+                    EventGhost.NewJumpIf(XmlIdLink(790), 2, True)
+                </Action>
+                <Action Name="Insignia-4">
+                    USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0157 00AB 0016 0016 0015 0016 0016 0016 0016 0016 0015 0041 0016 0016 0015 0016 0016 0016 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0016 0015 0016 0016 0016 0015 0041 0016 0016 0015 0016 0016 0016 0016 0016 0015 0041 0016 0040 0016 0041 0015 0016 0016 0041 0015 05C2 0157 0056 0015 0E49', 4, 0)
+                </Action>
+                <Action>
+                    Winamp.Stop()
+                </Action>
+            </Macro>
+            <Folder Name="Insignia">
+                <Macro Name="USB-UIRT: Transmit IR" Expanded="True">
+                    <Action Name="Insignia-power">
+                        USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0157 00AB 0016 0016 0015 0016 0016 0016 0016 0016 0015 0041 0016 0016 0015 0016 0015 0016 0016 0040 0015 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0016 0016 0016 0015 0016 0015 0016 0016 0016 0015 0016 0016 0016 0016 0016 0015 0041 0016 0040 0015 0041 0015 05C3 0157 0056 0015 0E4A', 4, 0)
+                    </Action>
+                    <Action Name="Insignia-am/fm">
+                        USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0158 00AC 0016 0016 0016 0016 0015 0016 0016 0016 0016 0040 0016 0016 0016 0016 0015 0016 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0016 0015 0016 0016 0041 0015 0041 0016 0040 0016 0016 0016 0016 0015 0016 0016 0041 0015 0041 0016 0016 0015 0016 0016 0016 0016 0040 0016 0041 0015 0041 0016 05C6 0158 0056 0016 0E54', 4, 0)
+                    </Action>
+                    <Action Name="Insignia-1">
+                        USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0157 00AD 0015 0016 0016 0016 0016 0016 0015 0016 0016 0041 0015 0016 0016 0016 0016 0016 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0016 0015 0041 0016 0016 0015 0016 0016 0016 0016 0016 0015 0016 0016 0016 0016 0040 0016 0016 0016 0040 0016 05C8 0157 0056 0016 0E58', 4, 0)
+                    </Action>
+                    <Action Name="Insignia-2">
+                        USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0157 00AB 0016 0016 0015 0016 0016 0016 0016 0016 0015 0041 0016 0016 0015 0016 0015 0016 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0016 0016 0041 0015 0016 0015 0041 0015 0016 0016 0016 0016 0016 0015 0016 0016 0041 0015 0016 0016 0041 0015 0016 0016 0041 0015 0041 0016 0040 0016 0041 0015 05C2 0157 0056 0015 0E4A', 4, 0)
+                    </Action>
+                    <Action Name="Insignia-3">
+                        USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0157 00AD 0015 0016 0016 0016 0016 0016 0015 0016 0016 0041 0015 0016 0016 0016 0016 0016 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0016 0016 0040 0016 0016 0016 0016 0015 0016 0016 0016 0016 0016 0015 0016 0016 0041 0015 0016 0016 0041 0015 0041 0016 0040 0016 05C8 0157 0056 0016 0E57', 4, 0)
+                    </Action>
+                    <Action Name="Insignia-5">
+                        USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0157 00AD 0015 0016 0016 0016 0016 0016 0015 0016 0016 0041 0015 0016 0016 0016 0016 0016 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0016 0016 0016 0016 0040 0016 0016 0016 0016 0015 0041 0016 0016 0015 0016 0016 0041 0015 0041 0016 0016 0015 0041 0016 0040 0016 0016 0016 0040 0016 05C8 0157 0056 0016 0E57', 4, 0)
+                    </Action>
+                    <Action Name="Insignia-6">
+                        USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0157 00AB 0016 0016 0015 0016 0016 0016 0016 0016 0015 0041 0016 0016 0015 0016 0016 0016 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0016 0015 0041 0016 0016 0015 0016 0016 0016 0016 0016 0015 0016 0016 0016 0016 0040 0016 0016 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 05C3 0157 0056 0015 0E4B', 4, 0)
+                    </Action>
+                    <Action Name="Insignia-7">
+                        USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0157 00AB 0016 0016 0015 0016 0016 0016 0016 0016 0015 0041 0016 0016 0015 0016 0016 0016 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0016 0016 0016 0016 0016 0015 0016 0016 0016 0016 0016 0015 0016 0016 0016 0016 0040 0015 0041 0015 0041 0016 0040 0016 0041 0015 05C3 0157 0056 0015 0E4A', 4, 0)
+                    </Action>
+                    <Action Name="Insignia-8">
+                        USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0158 00AC 0016 0016 0016 0016 0015 0016 0016 0016 0016 0040 0016 0016 0016 0016 0015 0016 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0016 0016 0040 0016 0016 0016 0016 0015 0016 0016 0041 0015 0016 0016 0016 0016 0040 0016 0016 0016 0040 0016 0041 0015 0041 0016 0016 0015 0041 0016 05C5 0158 0056 0016 0E4F', 4, 0)
+                    </Action>
+                    <Action Name="Insignia-4">
+                        USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0157 00AB 0016 0016 0015 0016 0016 0016 0016 0016 0015 0041 0016 0016 0015 0016 0016 0016 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0016 0015 0016 0016 0016 0015 0041 0016 0016 0015 0016 0016 0016 0016 0016 0015 0041 0016 0040 0016 0041 0015 0016 0016 0041 0015 05C2 0157 0056 0015 0E49', 4, 0)
+                    </Action>
+                </Macro>
+                <Macro Name="Insignia-ON" id="790" Expanded="True">
+                    <Action>
+                        System.RegistryQuery(2147483650L, u'SOFTWARE\\EventGhost', u'Insignia-ON', 2, u'off')
+                    </Action>
+                    <Action>
+                        EventGhost.NewJumpIf(XmlIdLink(794), 0, True)
+                    </Action>
+                    <Action>
+                        EventGhost.NewJumpIf(XmlIdLink(802), 2, False)
+                    </Action>
+                </Macro>
+                <Macro Name="Insignia-Power-on/off" id="794" Expanded="True">
+                    <Action Name="Insignia-power">
+                        USB_UIRT.TransmitIR(u'0000 006D 0022 0002 0157 00AB 0016 0016 0015 0016 0016 0016 0016 0016 0015 0041 0016 0016 0015 0016 0015 0016 0016 0040 0015 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0041 0015 0041 0016 0040 0016 0016 0016 0016 0015 0016 0015 0016 0016 0016 0015 0016 0016 0016 0016 0016 0015 0041 0016 0040 0015 0041 0015 05C3 0157 0056 0015 0E4A', 4, 0)
+                    </Action>
+                </Macro>
+                <Macro Name="Insignia-OFF" Expanded="True">
+                    <Action>
+                        System.RegistryQuery(2147483650L, u'SOFTWARE\\EventGhost', u'Insignia-ON', 2, u'on')
+                    </Action>
+                    <Action>
+                        EventGhost.NewJumpIf(XmlIdLink(794), 0, True)
+                    </Action>
+                    <Action>
+                        EventGhost.NewJumpIf(XmlIdLink(800), 2, True)
+                    </Action>
+                </Macro>
+                <Macro Name="Set Insignia OFF" id="800">
+                    <Action>
+                        System.RegistryChange(2147483650L, u'SOFTWARE\\EventGhost', u'Insignia-ON', 0, 1, u'off')
+                    </Action>
+                </Macro>
+                <Macro Name="Set Insignia ON" id="802">
+                    <Action>
+                        System.RegistryChange(2147483650L, u'SOFTWARE\\EventGhost', u'Insignia-ON', 0, 1, u'on')
+                    </Action>
+                </Macro>
+            </Folder>
+        </Folder>
+        <Macro Name="KJZZ">
+            <Event Name="CommandFusion.DigitalRelease_9" />
+            <Event Name="HTTP.Y.KJZZ_down" Enabled="False" />
+            <Event Name="HTTP.radio.kjzz" Enabled="False" />
+            <Event Name="Main.kjzz" />
+            <Action>
+                CommandFusion.DigitalPress(10)
+            </Action>
+            <Action Name="Timer: Stop Winamp">
+                Timer.TimerAction(u'Stop Winamp', 0, 1, 7200.0, u'StopWinamp', False, False, 2, u'00:02:01')
+            </Action>
+            <Action>
+                XBMC2.JSONRPC(u'Player.Open', u'[{"file":"http://riosal.ic.llnwd.net/stream/riosal_kjzz.m3u"}]', True)
+            </Action>
+            <Action Enabled="False">
+                System.Execute(u'C:\\Program Files (x86)\\Winamp\\winamp.exe', u'http://riosal.ic.llnwd.net/stream/riosal_kjzz.m3u', 3, False, 2, u'', False)
+            </Action>
+            <Action Name="Yamaha-ON">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FB 0153 0055 0016 0E73', 4, 0)
+            </Action>
+            <Action>
+                EventGhost.Wait(1.0)
+            </Action>
+            <Action Name="Yamaha-DTV?CBL">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 05FB 0153 0055 0016 0E74', 4, 0)
+            </Action>
+        </Macro>
+        <Macro Name="Nagrywaj TKJ">
+            <Event Name="SchedulGhost.TKJ" />
+            <Action>
+                Winamp.Fadeout()
+            </Action>
+            <Action>
+                System.Execute(u'C:\\Program Files (x86)\\Winamp\\winamp.exe', u'http://www.polskieradio.pl/st/program3M.asx', 3, False, 2, u'', False)
+            </Action>
+            <Action Name="Yamaha-ON">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FB 0153 0055 0016 0E73', 4, 0)
+            </Action>
+            <Action>
+                EventGhost.Wait(1.0)
+            </Action>
+            <Action Name="Yamaha-DTV?CBL">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B3 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 05FB 0153 0055 0016 0E74', 4, 0)
+            </Action>
+            <Action>
+                EventGhost.Wait(5.0)
+            </Action>
+            <Action>
+                EventGhost.Wait(5.0)
+            </Action>
+        </Macro>
+        <Macro Name="Stop TKJ">
+            <Event Name="SchedulGhost.Off-THJ" />
+        </Macro>
+        <Macro Name="Turn Mute On_BT">
+            <Event Name="Main.btoff.*" />
+            <Action>
+                System.MuteOn(u'Speakers (Bluetooth Hands-free ')
+            </Action>
+            <Action>
+                Webserver.SetPersistentValue(u'btoff', u'ON', False, False)
+            </Action>
+            <Action>
+                Webserver.SetPersistentValue(u'bton', u'OFF', False, False)
+            </Action>
+        </Macro>
+        <Macro Name="Turn Mute Off_BT">
+            <Event Name="Main.bton.*" />
+            <Action>
+                System.MuteOff(u'Speakers (Bluetooth Hands-free ')
+            </Action>
+            <Action>
+                Webserver.SetPersistentValue(u'btoff', u'OFF', False, False)
+            </Action>
+            <Action>
+                Webserver.SetPersistentValue(u'bton', u'ON', False, False)
+            </Action>
+        </Macro>
+        <Macro Name="Serial Port: Write Data: B">
+            <Action>
+                Serial.Write(u'B')
+            </Action>
+        </Macro>
+        <Macro Name="XBMC vol">
+            <Event Name="XBMC2.Application.OnVolumeChanged" />
+            <Action>
+                EventGhost.PythonScript(u"suff=eg.event.payload\nvol=int(suff['volume'])\nprint vol\nold=int(eg.globals.Vol)\nif old &gt;= vol:\n    print 'ciszej'\n    eg.plugins.USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0154 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FC 0154 0055 0016 0E77', 10, 5)\nelse:\n    print 'glosniej'\n    eg.plugins.USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FC 0154 0055 0016 0E75', 9, 5)\neg.plugins.Webserver.SetPersistentValue('vol',str(vol)) \neg.globals.Vol = vol")
+            </Action>
+        </Macro>
+        <Macro Name="Serial Vol" Enabled="False">
+            <Event Name="Serial.Vol.*" />
+            <Action Name="Reguluj Vol">
+                EventGhost.PythonScript(u'import datetime\nimport os\nimport sys\nnum=eg.event.suffix[4:]\nnums = num.split("-")\nvolA = int(nums[0])\nvolB = int(nums[1])\nvol = eg.globals.Vol\nprint volA \nprint vol\n\nif (volA &gt; int(vol) + 10):\n    if (volB &lt; int(vol) - 10 ):\n        eg.plugins.Webserver.SetPersistentValue(\'salon\',"OFF")\n    else:\n        eg.plugins.Webserver.SetPersistentValue(\'salon\',"ON")   \n    eg.plugins.Webserver.SetPersistentValue(\'biuro\',"ON")\n    eg.plugins.USB_UIRT.TransmitIR(u\'0000 006B 0022 0002 0154 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FC 0154 0055 0016 0E77\', 10, 5)\n    eg.plugins.Serial.Write(u\'B\')\nif (volA &lt; int(vol) - 10):\n    eg.plugins.USB_UIRT.TransmitIR(u\'0000 006B 0022 0002 0153 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FC 0154 0055 0016 0E75\', 9, 5)\n    if (eg.globals.A != "ON"):\n        eg.globals.A = "ON"\n    else:\n        eg.globals.A = "OFF"\n      #  eg.plugins.USB_UIRT.TransmitIR(u\'0000 006B 0022 0002 0154 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0042 0016 0016 0016 05FD 0154 0056 0016 0E78\', 4, 0)\n    eg.plugins.Serial.Write(u\'B\')')
+            </Action>
+            <Action Enabled="False">
+                Serial.Write(u'B')
+            </Action>
+        </Macro>
+        <Macro Name="Vol slider" Enabled="False">
+            <Event Name="HTTP.vol.*" />
+            <Action>
+                EventGhost.PythonScript(u"suff=eg.event.suffix\nprint suff\nvol=suff[4:len(suff)]\nprint vol\neg.plugins.Webserver.SetPersistentValue('vol',vol) \neg.globals.Vol = vol\neg.plugins.Serial.Write(u'B')")
+            </Action>
+        </Macro>
+        <Macro Name="Webserver: Set persistent value: boxee: ON">
+            <Event Name="Ping.boxee.on" />
+            <Action>
+                Webserver.SetPersistentValue(u'boxee', u'ON', False, False)
+            </Action>
+        </Macro>
+        <Macro Name="Webserver: Set persistent value: boxee: OFF" Expanded="True">
+            <Event Name="Ping.boxee.off" />
+            <Action>
+                Webserver.SetPersistentValue(u'boxee', u'OFF', False, False)
+            </Action>
+        </Macro>
+    </Folder>
+    <Folder Name="Telefony">
+        <Macro Name="Dzwoni" Expanded="True">
+            <Event Name="TCP.PhoneState.RINGING" />
+            <Action>
+                EventGhost.NewJumpIf(XmlIdLink(877), 2, True)
+            </Action>
+            <Action Name="Vol+">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FC 0154 0055 0016 0E75', 1, 5)
+            </Action>
+            <Action Name="Mute">
+                USB_UIRT.TransmitIR(u'0000 006C 0022 0002 0158 00AC 0015 0017 0015 0041 0015 0016 0015 0041 0015 0041 0015 0041 0015 0041 0015 0016 0015 0041 0015 0016 0015 0041 0015 0016 0015 0016 0015 0016 0015 0016 0015 0042 0015 0017 0015 0017 0015 0041 0015 0041 0015 0041 0015 0016 0015 0016 0015 0017 0015 0041 0015 0041 0015 0017 0015 0016 0015 0016 0015 0041 0015 0041 0015 0041 0015 0609 0158 0057 0015 0E69', 4, 0)
+            </Action>
+            <Action>
+                EventGhost.PythonScript(u'\nimport os\nimport sys\n#payload = "[\'192.168.78.11\', u\'6043171265\']" \nphonebook = eg.globals.phonebook\nip = eg.event.payload[0]\nphone = eg.event.payload[1]\nmsg = \'dupa\'\nif phonebook.has_key(phone):\n    phone=phonebook[phone]\nif  \'192.168.78.11\' in ip:\n    artur=0\n    tell="Gosia"\n    msg="msg * /server:192.168.78.14 Dzwonil " + phone \nelse:\n    artur=1\n    msg="msg * /server:192.168.78.3 Dzwonil " + phone \n    os.system(msg)\n    tell="Artur"\nprint phone\nphone = tell + " dzvonee " + phone\n#eg.plugins.BroadcastListener.Broadcast(u\'telefon\', phone, 8383)\neg.plugins.Speech.TextToSpeech(u\'Microsoft Zira Desktop - English (United States)\',0,phone,0,100)\ntry:\n    print("START " + msg)\nexcept:\n    sys.exit()\nsys.exit()')
+            </Action>
+            <Action Enabled="False">
+                System.PlaySound(u'C:\\Program Files (x86)\\EventGhost\\sounds\\PHONE.WAV', 1, False)
+            </Action>
+            <Action>
+                EventGhost.ShowOSD(u'{eg.event.payload}', u'0;-24;0;0;0;700;0;0;0;1;0;0;2;32;Arial', (255, 255, 255), (0, 0, 0), 0, (0, 0), 0, 3.0, False)
+            </Action>
+            <Action Name="Vol+">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FC 0154 0055 0016 0E75', 1, 5)
+            </Action>
+            <Action Name="Vol-">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0154 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FC 0154 0055 0016 0E77', 1, 5)
+            </Action>
+            <Action>
+                EventGhost.NewJumpIf(XmlIdLink(869), 2, True)
+            </Action>
+            <Action>
+                EventGhost.Wait(5.0)
+            </Action>
+            <Action>
+                System.Execute(u'taskkill', u'/F /IM msg.exe', 0, False, 2, u'', False)
+            </Action>
+        </Macro>
+        <Macro Name="Turn Mute Off" id="869" Expanded="True">
+            <Event Name="TCP.PhoneState.IDLE" />
+            <Event Name="Android.PhoneState.IDLE" />
+            <Action Name="Vol+">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FC 0154 0055 0016 0E75', 1, 5)
+            </Action>
+            <Action Name="Vol-">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0154 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FC 0154 0055 0016 0E77', 1, 5)
+            </Action>
+            <Action Enabled="False">
+                Winamp.Play()
+            </Action>
+            <Action>
+                System.MuteOff(u'Digital Audio (S/PDIF) (2- High')
+            </Action>
+            <Action>
+                System.MuteOff(u'Speakers (Bluetooth Hands-free ')
+            </Action>
+        </Macro>
+        <Macro Name="Turn Mute On" id="877" Expanded="True">
+            <Event Name="TCP.PhoneState.OFFHOOK" />
+            <Event Name="Android.PhoneState.OFFHOOK" />
+            <Action>
+                System.MuteOn(u'Primary Sound Driver')
+            </Action>
+            <Action>
+                System.MuteOn(u'Speakers (Bluetooth Hands-free ')
+            </Action>
+            <Action Enabled="False">
+                Winamp.Pause()
+            </Action>
+            <Action Name="Vol+">
+                USB_UIRT.TransmitIR(u'0000 006B 0022 0002 0153 00B4 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0042 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0042 0016 0042 0016 0016 0016 0016 0016 0016 0016 0042 0016 0016 0016 0042 0016 0016 0016 0016 0016 0042 0016 0042 0016 0042 0016 05FC 0154 0055 0016 0E75', 1, 5)
+            </Action>
+            <Action Name="Mute">
+                USB_UIRT.TransmitIR(u'0000 006C 0022 0002 0158 00AC 0015 0017 0015 0041 0015 0016 0015 0041 0015 0041 0015 0041 0015 0041 0015 0016 0015 0041 0015 0016 0015 0041 0015 0016 0015 0016 0015 0016 0015 0016 0015 0042 0015 0017 0015 0017 0015 0041 0015 0041 0015 0041 0015 0016 0015 0016 0015 0017 0015 0041 0015 0041 0015 0017 0015 0016 0015 0016 0015 0041 0015 0041 0015 0041 0015 0609 0158 0057 0015 0E69', 4, 0)
+            </Action>
+        </Macro>
+    </Folder>
+    <Macro Name="Get temp gleby">
+        <Event Name="Timer.gettemps" />
+        <Action Enabled="False">
+            EventGhost.PythonScript(u'import bluetooth\nimport warnings\nwarnings.filterwarnings(action="ignore", message=\'the sets module is deprecated\')\nimport sets\nimport MySQLdb\nimport sys\ndef zapisz(lin):\n    s=lin.split(" ")\n    print(s[0])\n    hum = float(s[1])\n    temp = float(s[2])\n    a1 = int(s[3])\n    a2 = int(s[4])\n    a3 = int(s[5])\n    db = MySQLdb.connect(host="192.168.78.47", # your host, usually localhost\n                     user="artur", # your username\n                      passwd="dzikikot", # your password\n                      db="gleba", port=3306) # name of the data base\n    cur = db.cursor()\n    try:\n        cur.execute("""INSERT INTO dane (wilgotnosc,temperatura,a1,a2,a3) VALUES (\'%s\', \'%s\', \'%s\', \'%s\', \'%s\')""",(hum,temp,a1,a2,a3))\n        db.commit()\n    except MySQLdb.Error as e:\n         print ("Error %d: %s") , (e.args[0],e.args[1])\n         sys.exit(1)\n    cur.close\n    return;\nbd_addr = "20:13:06:28:36:47"\nport = 1\nsock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )\nsock.settimeout(2.0)\nattempts = 0\nwhile attempts &lt; 4:\n    try:\n        sock.connect((bd_addr, port))\n        print(\'conected\')\n        break\n    except:\n        attempts += 1\n        print(\'not conected\')\ns=""\nprint(\'czekam\')\n\nwhile True :\n        data = sock.recv(1)\n        if data != "\'":\n            s+=data\n        else:\n            print(s)\n            zapisz(s)\n            sock.close()\n            break\n\n')
+        </Action>
+    </Macro>
+    <Folder Name="IR543">
+        <Macro Name="USB-UIRT: Transmit IR" Expanded="True">
+            <Action Name="ON">
+                USB_UIRT.TransmitIR(u'0000 006B 000C 0000 00A5 0096 002E 00FE 002E 00FE 008E 0096 002E 00FE 008E 0096 008E 0096 008E 0096 002E 00FE 008E 0096 002E 00FE 01C2 0425', 1, 0)
+            </Action>
+            <Action Name="12">
+                USB_UIRT.TransmitIR(u'0000 006B 0018 0000 00A5 0096 008E 0096 002E 00FE 008E 0096 008E 0096 002E 00FE 002E 00FE 008E 0096 002E 00FE 002E 00FE 008E 0096 01C2 0096 00A5 0096 008E 0096 002E 00FE 008E 0096 008E 0096 002E 00FE 002E 00FE 008E 0096 002E 00FE 002E 00FE 008E 0096 01C2 0425', 4, 0)
+            </Action>
+        </Macro>
+        <Macro Name="&lt;unnamed macro&gt;" />
+        <Macro Name="&lt;unnamed macro&gt;" />
+    </Folder>
+    <Folder Name="XBMC2">
+        <Folder Name="Buttons" Expanded="True">
+            <Folder Name="Remote" Expanded="True">
+                <Macro Name="Left">
+                    <Action>
+                        XBMC2.RemoteLeft()
+                    </Action>
+                </Macro>
+                <Macro Name="Right">
+                    <Action>
+                        XBMC2.RemoteRight()
+                    </Action>
+                </Macro>
+                <Macro Name="Up">
+                    <Action>
+                        XBMC2.RemoteUp()
+                    </Action>
+                </Macro>
+                <Macro Name="Down">
+                    <Action>
+                        XBMC2.RemoteDown()
+                    </Action>
+                </Macro>
+                <Macro Name="Select">
+                    <Action>
+                        XBMC2.RemoteSelect()
+                    </Action>
+                </Macro>
+                <Macro Name="Back">
+                    <Action>
+                        XBMC2.RemoteBack()
+                    </Action>
+                </Macro>
+                <Macro Name="Menu">
+                    <Action>
+                        XBMC2.RemoteMenu()
+                    </Action>
+                </Macro>
+                <Macro Name="Info">
+                    <Action>
+                        XBMC2.RemoteInfo()
+                    </Action>
+                </Macro>
+                <Macro Name="Display">
+                    <Action>
+                        XBMC2.RemoteDisplay()
+                    </Action>
+                </Macro>
+                <Macro Name="Title">
+                    <Action>
+                        XBMC2.RemoteTitle()
+                    </Action>
+                </Macro>
+                <Macro Name="Play">
+                    <Action>
+                        XBMC2.RemotePlay()
+                    </Action>
+                </Macro>
+                <Macro Name="Pause">
+                    <Action>
+                        XBMC2.RemotePause()
+                    </Action>
+                </Macro>
+                <Macro Name="Reverse">
+                    <Action>
+                        XBMC2.RemoteReverse()
+                    </Action>
+                </Macro>
+                <Macro Name="Forward">
+                    <Action>
+                        XBMC2.RemoteForward()
+                    </Action>
+                </Macro>
+                <Macro Name="Skip +">
+                    <Action>
+                        XBMC2.RemoteSkipPlus()
+                    </Action>
+                </Macro>
+                <Macro Name="Skip -">
+                    <Action>
+                        XBMC2.RemoteSkipMinus()
+                    </Action>
+                </Macro>
+                <Macro Name="Stop">
+                    <Action>
+                        XBMC2.RemoteStop()
+                    </Action>
+                </Macro>
+                <Macro Name="0">
+                    <Action>
+                        XBMC2.Remote0()
+                    </Action>
+                </Macro>
+                <Macro Name="1">
+                    <Action>
+                        XBMC2.Remote1()
+                    </Action>
+                </Macro>
+                <Macro Name="2">
+                    <Action>
+                        XBMC2.Remote2()
+                    </Action>
+                </Macro>
+                <Macro Name="3">
+                    <Action>
+                        XBMC2.Remote3()
+                    </Action>
+                </Macro>
+                <Macro Name="4">
+                    <Action>
+                        XBMC2.Remote4()
+                    </Action>
+                </Macro>
+                <Macro Name="5">
+                    <Action>
+                        XBMC2.Remote5()
+                    </Action>
+                </Macro>
+                <Macro Name="6">
+                    <Action>
+                        XBMC2.Remote6()
+                    </Action>
+                </Macro>
+                <Macro Name="7">
+                    <Action>
+                        XBMC2.Remote7()
+                    </Action>
+                </Macro>
+                <Macro Name="8">
+                    <Action>
+                        XBMC2.Remote8()
+                    </Action>
+                </Macro>
+                <Macro Name="9">
+                    <Action>
+                        XBMC2.Remote9()
+                    </Action>
+                </Macro>
+                <Macro Name="Power">
+                    <Action>
+                        XBMC2.RemotePower()
+                    </Action>
+                </Macro>
+                <Macro Name="My TV">
+                    <Action>
+                        XBMC2.RemoteMyTV()
+                    </Action>
+                </Macro>
+                <Macro Name="My Music">
+                    <Action>
+                        XBMC2.RemoteMyMusic()
+                    </Action>
+                </Macro>
+                <Macro Name="My Pictures">
+                    <Action>
+                        XBMC2.RemoteMyPictures()
+                    </Action>
+                </Macro>
+                <Macro Name="My Video">
+                    <Action>
+                        XBMC2.RemoteMyVideo()
+                    </Action>
+                </Macro>
+                <Macro Name="Record">
+                    <Action>
+                        XBMC2.RemoteRecord()
+                    </Action>
+                </Macro>
+                <Macro Name="Start">
+                    <Action>
+                        XBMC2.RemoteStart()
+                    </Action>
+                </Macro>
+                <Macro Name="Vol +">
+                    <Action>
+                        XBMC2.RemoteVolPlus()
+                    </Action>
+                </Macro>
+                <Macro Name="Vol -">
+                    <Action>
+                        XBMC2.RemoteVolMinus()
+                    </Action>
+                </Macro>
+                <Macro Name="CH +">
+                    <Action>
+                        XBMC2.Remotechannelplus()
+                    </Action>
+                </Macro>
+                <Macro Name="CH -">
+                    <Action>
+                        XBMC2.Remotechannelminus()
+                    </Action>
+                </Macro>
+                <Macro Name="PG +">
+                    <Action>
+                        XBMC2.Remotepageplus()
+                    </Action>
+                </Macro>
+                <Macro Name="PG -">
+                    <Action>
+                        XBMC2.Remotepageminus()
+                    </Action>
+                </Macro>
+                <Macro Name="Mute">
+                    <Action>
+                        XBMC2.RemoteMute()
+                    </Action>
+                </Macro>
+                <Macro Name="Recorded TV">
+                    <Action>
+                        XBMC2.RemoteRecordedTV()
+                    </Action>
+                </Macro>
+                <Macro Name="Live TV">
+                    <Action>
+                        XBMC2.RemoteLiveTV()
+                    </Action>
+                </Macro>
+                <Macro Name="*">
+                    <Action>
+                        XBMC2.RemoteStar()
+                    </Action>
+                </Macro>
+                <Macro Name="#">
+                    <Action>
+                        XBMC2.Remote#()
+                    </Action>
+                </Macro>
+                <Macro Name="Clear">
+                    <Action>
+                        XBMC2.RemoteClear()
+                    </Action>
+                </Macro>
+                <Macro Name="Guide">
+                    <Action>
+                        XBMC2.Remoteguide()
+                    </Action>
+                </Macro>
+                <Macro Name="Enter">
+                    <Action>
+                        XBMC2.Remoteenter()
+                    </Action>
+                </Macro>
+                <Macro Name="Xbox">
+                    <Action>
+                        XBMC2.Remotexbox()
+                    </Action>
+                </Macro>
+                <Macro Name="Teletext">
+                    <Action>
+                        XBMC2.Remoteteletext()
+                    </Action>
+                </Macro>
+                <Macro Name="Red">
+                    <Action>
+                        XBMC2.Remotered()
+                    </Action>
+                </Macro>
+                <Macro Name="Green">
+                    <Action>
+                        XBMC2.Remotegreen()
+                    </Action>
+                </Macro>
+                <Macro Name="Yellow">
+                    <Action>
+                        XBMC2.Remoteyellow()
+                    </Action>
+                </Macro>
+                <Macro Name="Blue">
+                    <Action>
+                        XBMC2.Remoteblue()
+                    </Action>
+                </Macro>
+                <Macro Name="Subtitle">
+                    <Action>
+                        XBMC2.Remotesubtitle()
+                    </Action>
+                </Macro>
+                <Macro Name="Language">
+                    <Action>
+                        XBMC2.Remotelanguage()
+                    </Action>
+                </Macro>
+            </Folder>
+            <Folder Name="Gamepad">
+                <Macro Name="A">
+                    <Action>
+                        XBMC2.GamepadA()
+                    </Action>
+                </Macro>
+                <Macro Name="B">
+                    <Action>
+                        XBMC2.GamepadB()
+                    </Action>
+                </Macro>
+                <Macro Name="X">
+                    <Action>
+                        XBMC2.GamepadX()
+                    </Action>
+                </Macro>
+                <Macro Name="Y">
+                    <Action>
+                        XBMC2.GamepadY()
+                    </Action>
+                </Macro>
+                <Macro Name="White">
+                    <Action>
+                        XBMC2.GamepadWhite()
+                    </Action>
+                </Macro>
+                <Macro Name="Black">
+                    <Action>
+                        XBMC2.GamepadBlack()
+                    </Action>
+                </Macro>
+                <Macro Name="Start">
+                    <Action>
+                        XBMC2.GamepadStart()
+                    </Action>
+                </Macro>
+                <Macro Name="Back">
+                    <Action>
+                        XBMC2.GamepadBack()
+                    </Action>
+                </Macro>
+                <Macro Name="LeftThumbButton">
+                    <Action>
+                        XBMC2.GamepadLeftThumbButton()
+                    </Action>
+                </Macro>
+                <Macro Name="RightThumbButton">
+                    <Action>
+                        XBMC2.GamepadRightThumbButton()
+                    </Action>
+                </Macro>
+                <Macro Name="LeftThumbStick">
+                    <Action>
+                        XBMC2.GamepadLeftThumbStick()
+                    </Action>
+                </Macro>
+                <Macro Name="LeftThumbStickUp">
+                    <Action>
+                        XBMC2.GamepadLeftThumbStickUp()
+                    </Action>
+                </Macro>
+                <Macro Name="LeftThumbStickDown">
+                    <Action>
+                        XBMC2.GamepadLeftThumbStickDown()
+                    </Action>
+                </Macro>
+                <Macro Name="LeftThumbStickLeft">
+                    <Action>
+                        XBMC2.GamepadLeftThumbStickLeft()
+                    </Action>
+                </Macro>
+                <Macro Name="LeftThumbStickRight">
+                    <Action>
+                        XBMC2.GamepadLeftThumbStickRight()
+                    </Action>
+                </Macro>
+                <Macro Name="RightThumbStick">
+                    <Action>
+                        XBMC2.GamepadRightThumbStick()
+                    </Action>
+                </Macro>
+                <Macro Name="RightThumbStickUp">
+                    <Action>
+                        XBMC2.GamepadRightThumbStickUp()
+                    </Action>
+                </Macro>
+                <Macro Name="RightThumbStickDown">
+                    <Action>
+                        XBMC2.GamepadRightThumbStickDown()
+                    </Action>
+                </Macro>
+                <Macro Name="RightThumbStickLeft">
+                    <Action>
+                        XBMC2.GamepadRightThumbStickLeft()
+                    </Action>
+                </Macro>
+                <Macro Name="RightThumbStickRight">
+                    <Action>
+                        XBMC2.GamepadRightThumbStickRight()
+                    </Action>
+                </Macro>
+                <Macro Name="LeftTrigger">
+                    <Action>
+                        XBMC2.GamepadLeftTrigger()
+                    </Action>
+                </Macro>
+                <Macro Name="RightTrigger">
+                    <Action>
+                        XBMC2.GamepadRightTrigger()
+                    </Action>
+                </Macro>
+                <Macro Name="LeftAnalogTrigger">
+                    <Action>
+                        XBMC2.GamepadLeftAnalogTrigger()
+                    </Action>
+                </Macro>
+                <Macro Name="RightAnalogTrigger">
+                    <Action>
+                        XBMC2.GamepadRightAnalogTrigger()
+                    </Action>
+                </Macro>
+                <Macro Name="DpadLeft">
+                    <Action>
+                        XBMC2.GamepadDpadLeft()
+                    </Action>
+                </Macro>
+                <Macro Name="DpadRight">
+                    <Action>
+                        XBMC2.GamepadDpadRight()
+                    </Action>
+                </Macro>
+                <Macro Name="DpadUp">
+                    <Action>
+                        XBMC2.GamepadDpadUp()
+                    </Action>
+                </Macro>
+                <Macro Name="DpadDown">
+                    <Action>
+                        XBMC2.GamepadDpadDown()
+                    </Action>
+                </Macro>
+            </Folder>
+            <Folder Name="Keyboard">
+                <Macro Name="Backspace">
+                    <Action>
+                        XBMC2.KeyboardBackspace()
+                    </Action>
+                </Macro>
+                <Macro Name="Enter">
+                    <Action>
+                        XBMC2.KeyboardEnter()
+                    </Action>
+                </Macro>
+                <Macro Name="Tab">
+                    <Action>
+                        XBMC2.KeyboardTab()
+                    </Action>
+                </Macro>
+            </Folder>
+        </Folder>
+        <Folder Name="Actions" Expanded="True">
+            <Folder Name="General" Expanded="True">
+                <Macro Name="Left">
+                    <Action>
+                        XBMC2.Left()
+                    </Action>
+                </Macro>
+                <Macro Name="Right">
+                    <Action>
+                        XBMC2.Right()
+                    </Action>
+                </Macro>
+                <Macro Name="Up">
+                    <Action>
+                        XBMC2.Up()
+                    </Action>
+                </Macro>
+                <Macro Name="Down">
+                    <Action>
+                        XBMC2.Down()
+                    </Action>
+                </Macro>
+                <Macro Name="PageUp">
+                    <Action>
+                        XBMC2.PageUp()
+                    </Action>
+                </Macro>
+                <Macro Name="PageDown">
+                    <Action>
+                        XBMC2.PageDown()
+                    </Action>
+                </Macro>
+                <Macro Name="Select">
+                    <Action>
+                        XBMC2.Select()
+                    </Action>
+                </Macro>
+                <Macro Name="Highlight">
+                    <Action>
+                        XBMC2.Highlight()
+                    </Action>
+                </Macro>
+                <Macro Name="Parentfolder">
+                    <Action>
+                        XBMC2.Parentfolder()
+                    </Action>
+                </Macro>
+                <Macro Name="Back">
+                    <Action>
+                        XBMC2.Back()
+                    </Action>
+                </Macro>
+                <Macro Name="ParentDir">
+                    <Action>
+                        XBMC2.ParentDir()
+                    </Action>
+                </Macro>
+                <Macro Name="PreviousMenu">
+                    <Action>
+                        XBMC2.PreviousMenu()
+                    </Action>
+                </Macro>
+                <Macro Name="Info">
+                    <Action>
+                        XBMC2.Info()
+                    </Action>
+                </Macro>
+                <Macro Name="Screenshot">
+                    <Action>
+                        XBMC2.Screenshot()
+                    </Action>
+                </Macro>
+                <Macro Name="PowerOff">
+                    <Action>
+                        XBMC2.PowerOff()
+                    </Action>
+                </Macro>
+                <Macro Name="VolumeUp">
+                    <Action>
+                        XBMC2.VolumeUp()
+                    </Action>
+                </Macro>
+                <Macro Name="VolumeDown">
+                    <Action>
+                        XBMC2.VolumeDown()
+                    </Action>
+                </Macro>
+                <Macro Name="Mute">
+                    <Action>
+                        XBMC2.Mute()
+                    </Action>
+                </Macro>
+                <Macro Name="ContextMenu">
+                    <Action>
+                        XBMC2.ContextMenu()
+                    </Action>
+                </Macro>
+                <Macro Name="ScrollUp">
+                    <Action>
+                        XBMC2.ScrollUp()
+                    </Action>
+                </Macro>
+                <Macro Name="ScrollDown">
+                    <Action>
+                        XBMC2.ScrollDown()
+                    </Action>
+                </Macro>
+                <Macro Name="Close">
+                    <Action>
+                        XBMC2.Close()
+                    </Action>
+                </Macro>
+                <Macro Name="Number0">
+                    <Action>
+                        XBMC2.Number0()
+                    </Action>
+                </Macro>
+                <Macro Name="Number1">
+                    <Action>
+                        XBMC2.Number1()
+                    </Action>
+                </Macro>
+                <Macro Name="Number2">
+                    <Action>
+                        XBMC2.Number2()
+                    </Action>
+                </Macro>
+                <Macro Name="Number3">
+                    <Action>
+                        XBMC2.Number3()
+                    </Action>
+                </Macro>
+                <Macro Name="Number4">
+                    <Action>
+                        XBMC2.Number4()
+                    </Action>
+                </Macro>
+                <Macro Name="Number5">
+                    <Action>
+                        XBMC2.Number5()
+                    </Action>
+                </Macro>
+                <Macro Name="Number6">
+                    <Action>
+                        XBMC2.Number6()
+                    </Action>
+                </Macro>
+                <Macro Name="Number7">
+                    <Action>
+                        XBMC2.Number7()
+                    </Action>
+                </Macro>
+                <Macro Name="Number8">
+                    <Action>
+                        XBMC2.Number8()
+                    </Action>
+                </Macro>
+                <Macro Name="Number9">
+                    <Action>
+                        XBMC2.Number9()
+                    </Action>
+                </Macro>
+            </Folder>
+            <Folder Name="Media playing" Expanded="True">
+                <Macro Name="Play">
+                    <Action>
+                        XBMC2.Play()
+                    </Action>
+                </Macro>
+                <Macro Name="Pause">
+                    <Action>
+                        XBMC2.Pause()
+                    </Action>
+                </Macro>
+                <Macro Name="Stop">
+                    <Action>
+                        XBMC2.Stop()
+                    </Action>
+                </Macro>
+                <Macro Name="FastForward">
+                    <Action>
+                        XBMC2.FastForward()
+                    </Action>
+                </Macro>
+                <Macro Name="Rewind">
+                    <Action>
+                        XBMC2.Rewind()
+                    </Action>
+                </Macro>
+                <Macro Name="SkipNext">
+                    <Action>
+                        XBMC2.SkipNext()
+                    </Action>
+                </Macro>
+                <Macro Name="SkipPrevious">
+                    <Action>
+                        XBMC2.SkipPrevious()
+                    </Action>
+                </Macro>
+                <Macro Name="FullScreen">
+                    <Action>
+                        XBMC2.FullScreen()
+                    </Action>
+                </Macro>
+                <Macro Name="CodecInfo">
+                    <Action>
+                        XBMC2.CodecInfo()
+                    </Action>
+                </Macro>
+                <Macro Name="AnalogSeekForward">
+                    <Action>
+                        XBMC2.AnalogSeekForward()
+                    </Action>
+                </Macro>
+                <Macro Name="AnalogSeekBack">
+                    <Action>
+                        XBMC2.AnalogSeekBack()
+                    </Action>
+                </Macro>
+                <Macro Name="AnalogFastForward">
+                    <Action>
+                        XBMC2.AnalogFastForward()
+                    </Action>
+                </Macro>
+                <Macro Name="AnalogRewind">
+                    <Action>
+                        XBMC2.AnalogRewind()
+                    </Action>
+                </Macro>
+                <Macro Name="Party Mode">
+                    <Action>
+                        XBMC2.PartyMode()
+                    </Action>
+                </Macro>
+                <Macro Name="Random">
+                    <Action>
+                        XBMC2.Random()
+                    </Action>
+                </Macro>
+                <Macro Name="Repeat">
+                    <Action>
+                        XBMC2.Repeat()
+                    </Action>
+                </Macro>
+                <Macro Name="Update Video Library">
+                    <Action>
+                        XBMC2.UpdateVideoLibrary()
+                    </Action>
+                </Macro>
+                <Macro Name="Update Music Library">
+                    <Action>
+                        XBMC2.UpdateMusicLibrary()
+                    </Action>
+                </Macro>
+                <Macro Name="IncreaseRating">
+                    <Action>
+                        XBMC2.IncreaseRating()
+                    </Action>
+                </Macro>
+                <Macro Name="DecreaseRating">
+                    <Action>
+                        XBMC2.DecreaseRating()
+                    </Action>
+                </Macro>
+                <Macro Name="EjectTray">
+                    <Action>
+                        XBMC2.EjectTray()
+                    </Action>
+                </Macro>
+                <Macro Name="Record">
+                    <Action>
+                        XBMC2.Record()
+                    </Action>
+                </Macro>
+                <Macro Name="PlayDVD">
+                    <Action>
+                        XBMC2.PlayDVD()
+                    </Action>
+                </Macro>
+                <Macro Name="LastFM.Love">
+                    <Action>
+                        XBMC2.LastFMLove()
+                    </Action>
+                </Macro>
+                <Macro Name="LastFM.Ban">
+                    <Action>
+                        XBMC2.LastFMBan()
+                    </Action>
+                </Macro>
+            </Folder>
+            <Folder Name="Playlist" Expanded="True">
+                <Macro Name="Playlist" Expanded="True">
+                    <Action>
+                        XBMC2.Playlist()
+                    </Action>
+                </Macro>
+                <Macro Name="Queue">
+                    <Action>
+                        XBMC2.Queue()
+                    </Action>
+                </Macro>
+                <Macro Name="MoveItemUp">
+                    <Action>
+                        XBMC2.MoveItemUp()
+                    </Action>
+                </Macro>
+                <Macro Name="MoveItemDown">
+                    <Action>
+                        XBMC2.MoveItemDown()
+                    </Action>
+                </Macro>
+            </Folder>
+            <Folder Name="FullScreen Video">
+                <Macro Name="StepForward">
+                    <Action>
+                        XBMC2.StepForward()
+                    </Action>
+                </Macro>
+                <Macro Name="StepBack">
+                    <Action>
+                        XBMC2.StepBack()
+                    </Action>
+                </Macro>
+                <Macro Name="BigStepForward">
+                    <Action>
+                        XBMC2.BigStepForward()
+                    </Action>
+                </Macro>
+                <Macro Name="BigStepBack">
+                    <Action>
+                        XBMC2.BigStepBack()
+                    </Action>
+                </Macro>
+                <Macro Name="SmallStepBack">
+                    <Action>
+                        XBMC2.SmallStepBack()
+                    </Action>
+                </Macro>
+                <Macro Name="OSD">
+                    <Action>
+                        XBMC2.OSD()
+                    </Action>
+                </Macro>
+                <Macro Name="AspectRatio">
+                    <Action>
+                        XBMC2.AspectRatio()
+                    </Action>
+                </Macro>
+                <Macro Name="ShowSubtitles">
+                    <Action>
+                        XBMC2.ShowSubtitles()
+                    </Action>
+                </Macro>
+                <Macro Name="NextSubtitle">
+                    <Action>
+                        XBMC2.NextSubtitle()
+                    </Action>
+                </Macro>
+                <Macro Name="SubtitleDelay">
+                    <Action>
+                        XBMC2.Subtitledelay()
+                    </Action>
+                </Macro>
+                <Macro Name="SubtitleDelayMinus">
+                    <Action>
+                        XBMC2.SubtitleDelayMinus()
+                    </Action>
+                </Macro>
+                <Macro Name="SubtitleDelayPlus">
+                    <Action>
+                        XBMC2.SubtitleDelayPlus()
+                    </Action>
+                </Macro>
+                <Macro Name="AudioDelay">
+                    <Action>
+                        XBMC2.Audiodelay()
+                    </Action>
+                </Macro>
+                <Macro Name="AudioDelayMinus">
+                    <Action>
+                        XBMC2.AudioDelayMinus()
+                    </Action>
+                </Macro>
+                <Macro Name="AudioDelayPlus">
+                    <Action>
+                        XBMC2.AudioDelayPlus()
+                    </Action>
+                </Macro>
+                <Macro Name="AudioNextLanguage">
+                    <Action>
+                        XBMC2.AudioNextLanguage()
+                    </Action>
+                </Macro>
+                <Macro Name="MplayerOSD">
+                    <Action>
+                        XBMC2.mplayerosd()
+                    </Action>
+                </Macro>
+                <Macro Name="ShowTime">
+                    <Action>
+                        XBMC2.ShowTime()
+                    </Action>
+                </Macro>
+                <Macro Name="ShowVideoMenu">
+                    <Action>
+                        XBMC2.ShowVideoMenu()
+                    </Action>
+                </Macro>
+                <Macro Name="IncreasePAR">
+                    <Action>
+                        XBMC2.Increasepar()
+                    </Action>
+                </Macro>
+                <Macro Name="DecreasePAR">
+                    <Action>
+                        XBMC2.Decreasepar()
+                    </Action>
+                </Macro>
+            </Folder>
+            <Folder Name="Picture slideshow">
+                <Macro Name="NextPicture">
+                    <Action>
+                        XBMC2.NextPicture()
+                    </Action>
+                </Macro>
+                <Macro Name="PreviousPicture">
+                    <Action>
+                        XBMC2.PreviousPicture()
+                    </Action>
+                </Macro>
+                <Macro Name="ZoomOut">
+                    <Action>
+                        XBMC2.ZoomOut()
+                    </Action>
+                </Macro>
+                <Macro Name="ZoomIn">
+                    <Action>
+                        XBMC2.ZoomIn()
+                    </Action>
+                </Macro>
+                <Macro Name="ZoomNormal">
+                    <Action>
+                        XBMC2.ZoomNormal()
+                    </Action>
+                </Macro>
+                <Macro Name="ZoomLevel1">
+                    <Action>
+                        XBMC2.ZoomLevel1()
+                    </Action>
+                </Macro>
+                <Macro Name="ZoomLevel2">
+                    <Action>
+                        XBMC2.ZoomLevel2()
+                    </Action>
+                </Macro>
+                <Macro Name="ZoomLevel3">
+                    <Action>
+                        XBMC2.ZoomLevel3()
+                    </Action>
+                </Macro>
+                <Macro Name="ZoomLevel4">
+                    <Action>
+                        XBMC2.ZoomLevel4()
+                    </Action>
+                </Macro>
+                <Macro Name="ZoomLevel5">
+                    <Action>
+                        XBMC2.ZoomLevel5()
+                    </Action>
+                </Macro>
+                <Macro Name="ZoomLevel6">
+                    <Action>
+                        XBMC2.ZoomLevel6()
+                    </Action>
+                </Macro>
+                <Macro Name="ZoomLevel7">
+                    <Action>
+                        XBMC2.ZoomLevel7()
+                    </Action>
+                </Macro>
+                <Macro Name="ZoomLevel8">
+                    <Action>
+                        XBMC2.ZoomLevel8()
+                    </Action>
+                </Macro>
+                <Macro Name="ZoomLevel9">
+                    <Action>
+                        XBMC2.ZoomLevel9()
+                    </Action>
+                </Macro>
+                <Macro Name="AnalogMove">
+                    <Action>
+                        XBMC2.AnalogMove()
+                    </Action>
+                </Macro>
+                <Macro Name="Rotate">
+                    <Action>
+                        XBMC2.Rotate()
+                    </Action>
+                </Macro>
+            </Folder>
+            <Folder Name="Screen calibration">
+                <Macro Name="NextCalibration">
+                    <Action>
+                        XBMC2.NextCalibration()
+                    </Action>
+                </Macro>
+                <Macro Name="ResetCalibration">
+                    <Action>
+                        XBMC2.ResetCalibration()
+                    </Action>
+                </Macro>
+                <Macro Name="AnalogMove">
+                    <Action>
+                        XBMC2.AnalogMove()
+                    </Action>
+                </Macro>
+                <Macro Name="NextResolution">
+                    <Action>
+                        XBMC2.NextResolution()
+                    </Action>
+                </Macro>
+            </Folder>
+            <Folder Name="File Manager">
+                <Macro Name="Delete">
+                    <Action>
+                        XBMC2.Delete()
+                    </Action>
+                </Macro>
+                <Macro Name="Copy">
+                    <Action>
+                        XBMC2.Copy()
+                    </Action>
+                </Macro>
+                <Macro Name="Move">
+                    <Action>
+                        XBMC2.Move()
+                    </Action>
+                </Macro>
+                <Macro Name="Rename">
+                    <Action>
+                        XBMC2.Rename()
+                    </Action>
+                </Macro>
+            </Folder>
+            <Folder Name="On-screen keyboard">
+                <Macro Name="BackSpace">
+                    <Action>
+                        XBMC2.BackSpace()
+                    </Action>
+                </Macro>
+                <Macro Name="Shift">
+                    <Action>
+                        XBMC2.Shift()
+                    </Action>
+                </Macro>
+                <Macro Name="Symbols">
+                    <Action>
+                        XBMC2.Symbols()
+                    </Action>
+                </Macro>
+                <Macro Name="CursorLeft">
+                    <Action>
+                        XBMC2.CursorLeft()
+                    </Action>
+                </Macro>
+                <Macro Name="CursorRight">
+                    <Action>
+                        XBMC2.CursorRight()
+                    </Action>
+                </Macro>
+            </Folder>
+            <Folder Name="Music visualisation" Expanded="True">
+                <Macro Name="OSD">
+                    <Action>
+                        XBMC2.OSD()
+                    </Action>
+                </Macro>
+                <Macro Name="ShowPreset">
+                    <Action>
+                        XBMC2.ShowPreset()
+                    </Action>
+                </Macro>
+                <Macro Name="PresetList">
+                    <Action>
+                        XBMC2.PresetList()
+                    </Action>
+                </Macro>
+                <Macro Name="NextPreset">
+                    <Action>
+                        XBMC2.NextPreset()
+                    </Action>
+                </Macro>
+                <Macro Name="PreviousPreset">
+                    <Action>
+                        XBMC2.PreviousPreset()
+                    </Action>
+                </Macro>
+                <Macro Name="LockPreset">
+                    <Action>
+                        XBMC2.LockPreset()
+                    </Action>
+                </Macro>
+                <Macro Name="RandomPreset">
+                    <Action>
+                        XBMC2.RandomPreset()
+                    </Action>
+                </Macro>
+                <Macro Name="IncreaseVisRating">
+                    <Action>
+                        XBMC2.increasevisrating()
+                    </Action>
+                </Macro>
+                <Macro Name="DecreaseVisRating">
+                    <Action>
+                        XBMC2.decreasevisrating()
+                    </Action>
+                </Macro>
+            </Folder>
+            <Folder Name="Shutdown related">
+                <Macro Name="Quit">
+                    <Action>
+                        XBMC2.Quit()
+                    </Action>
+                </Macro>
+                <Macro Name="RestartApp">
+                    <Action>
+                        XBMC2.RestartApp()
+                    </Action>
+                </Macro>
+                <Macro Name="Reset Computer">
+                    <Action>
+                        XBMC2.Reset()
+                    </Action>
+                </Macro>
+                <Macro Name="Shutdown Computer">
+                    <Action>
+                        XBMC2.Shutdown()
+                    </Action>
+                </Macro>
+                <Macro Name="Powerdown">
+                    <Action>
+                        XBMC2.Powerdown()
+                    </Action>
+                </Macro>
+                <Macro Name="Suspend">
+                    <Action>
+                        XBMC2.Suspend()
+                    </Action>
+                </Macro>
+                <Macro Name="Hibernate">
+                    <Action>
+                        XBMC2.Hibernate()
+                    </Action>
+                </Macro>
+                <Macro Name="Reboot Computer">
+                    <Action>
+                        XBMC2.Reboot()
+                    </Action>
+                </Macro>
+                <Macro Name="Restart Computer">
+                    <Action>
+                        XBMC2.Restart()
+                    </Action>
+                </Macro>
+            </Folder>
+            <Folder Name="Uncategorized actions" Expanded="True">
+                <Macro Name="JumpSMS2">
+                    <Action>
+                        XBMC2.JumpSMS2()
+                    </Action>
+                </Macro>
+                <Macro Name="JumpSMS3">
+                    <Action>
+                        XBMC2.JumpSMS3()
+                    </Action>
+                </Macro>
+                <Macro Name="JumpSMS4">
+                    <Action>
+                        XBMC2.JumpSMS4()
+                    </Action>
+                </Macro>
+                <Macro Name="JumpSMS5">
+                    <Action>
+                        XBMC2.JumpSMS5()
+                    </Action>
+                </Macro>
+                <Macro Name="JumpSMS6">
+                    <Action>
+                        XBMC2.JumpSMS6()
+                    </Action>
+                </Macro>
+                <Macro Name="JumpSMS7">
+                    <Action>
+                        XBMC2.JumpSMS7()
+                    </Action>
+                </Macro>
+                <Macro Name="JumpSMS8">
+                    <Action>
+                        XBMC2.JumpSMS8()
+                    </Action>
+                </Macro>
+                <Macro Name="JumpSMS9">
+                    <Action>
+                        XBMC2.JumpSMS9()
+                    </Action>
+                </Macro>
+                <Macro Name="FilterClear">
+                    <Action>
+                        XBMC2.FilterClear()
+                    </Action>
+                </Macro>
+                <Macro Name="FilterSMS2">
+                    <Action>
+                        XBMC2.FilterSMS2()
+                    </Action>
+                </Macro>
+                <Macro Name="FilterSMS3">
+                    <Action>
+                        XBMC2.FilterSMS3()
+                    </Action>
+                </Macro>
+                <Macro Name="FilterSMS4">
+                    <Action>
+                        XBMC2.FilterSMS4()
+                    </Action>
+                </Macro>
+                <Macro Name="FilterSMS5">
+                    <Action>
+                        XBMC2.FilterSMS5()
+                    </Action>
+                </Macro>
+                <Macro Name="FilterSMS6">
+                    <Action>
+                        XBMC2.FilterSMS6()
+                    </Action>
+                </Macro>
+                <Macro Name="FilterSMS7">
+                    <Action>
+                        XBMC2.FilterSMS7()
+                    </Action>
+                </Macro>
+                <Macro Name="FilterSMS8">
+                    <Action>
+                        XBMC2.FilterSMS8()
+                    </Action>
+                </Macro>
+                <Macro Name="FilterSMS9">
+                    <Action>
+                        XBMC2.FilterSMS9()
+                    </Action>
+                </Macro>
+                <Macro Name="FirstPage">
+                    <Action>
+                        XBMC2.FirstPage()
+                    </Action>
+                </Macro>
+                <Macro Name="LastPage">
+                    <Action>
+                        XBMC2.LastPage()
+                    </Action>
+                </Macro>
+                <Macro Name="HideSubMenu">
+                    <Action>
+                        XBMC2.HideSubMenu()
+                    </Action>
+                </Macro>
+                <Macro Name="ToggleSource">
+                    <Action>
+                        XBMC2.ToggleSource()
+                    </Action>
+                </Macro>
+                <Macro Name="Remove">
+                    <Action>
+                        XBMC2.Remove()
+                    </Action>
+                </Macro>
+                <Macro Name="AudioToggleDigital">
+                    <Action>
+                        XBMC2.AudioToggleDigital()
+                    </Action>
+                </Macro>
+                <Macro Name="OSDLeft">
+                    <Action>
+                        XBMC2.OSDLeft()
+                    </Action>
+                </Macro>
+                <Macro Name="OSDRight">
+                    <Action>
+                        XBMC2.OSDRight()
+                    </Action>
+                </Macro>
+                <Macro Name="OSDUp">
+                    <Action>
+                        XBMC2.OSDUp()
+                    </Action>
+                </Macro>
+                <Macro Name="OSDDown">
+                    <Action>
+                        XBMC2.OSDDown()
+                    </Action>
+                </Macro>
+                <Macro Name="OSDSelect">
+                    <Action>
+                        XBMC2.OSDSelect()
+                    </Action>
+                </Macro>
+                <Macro Name="OSDValuePlus">
+                    <Action>
+                        XBMC2.OSDValuePlus()
+                    </Action>
+                </Macro>
+                <Macro Name="OSDValueMinus">
+                    <Action>
+                        XBMC2.OSDValueMinus()
+                    </Action>
+                </Macro>
+                <Macro Name="ToggleWatched">
+                    <Action>
+                        XBMC2.ToggleWatched()
+                    </Action>
+                </Macro>
+                <Macro Name="ScanItem">
+                    <Action>
+                        XBMC2.ScanItem()
+                    </Action>
+                </Macro>
+                <Macro Name="Enter">
+                    <Action>
+                        XBMC2.Enter()
+                    </Action>
+                </Macro>
+                <Macro Name="IncreaseRating">
+                    <Action>
+                        XBMC2.IncreaseRating()
+                    </Action>
+                </Macro>
+                <Macro Name="DecreaseRating">
+                    <Action>
+                        XBMC2.DecreaseRating()
+                    </Action>
+                </Macro>
+                <Macro Name="ToggleFullScreen">
+                    <Action>
+                        XBMC2.ToggleFullScreen()
+                    </Action>
+                </Macro>
+                <Macro Name="NextScene">
+                    <Action>
+                        XBMC2.NextScene()
+                    </Action>
+                </Macro>
+                <Macro Name="PreviousScene">
+                    <Action>
+                        XBMC2.PreviousScene()
+                    </Action>
+                </Macro>
+                <Macro Name="NextLetter">
+                    <Action>
+                        XBMC2.NextLetter()
+                    </Action>
+                </Macro>
+                <Macro Name="PrevLetter">
+                    <Action>
+                        XBMC2.PrevLetter()
+                    </Action>
+                </Macro>
+                <Macro Name="VerticalShiftUp">
+                    <Action>
+                        XBMC2.Verticalshiftup()
+                    </Action>
+                </Macro>
+                <Macro Name="VerticalShiftDown">
+                    <Action>
+                        XBMC2.Verticalshiftdown()
+                    </Action>
+                </Macro>
+                <Macro Name="PlayPause">
+                    <Action>
+                        XBMC2.Playpause()
+                    </Action>
+                </Macro>
+                <Macro Name="ReloadKeymaps">
+                    <Action>
+                        XBMC2.Reloadkeymaps()
+                    </Action>
+                </Macro>
+                <Macro Name="GuiProfile">
+                    <Action>
+                        XBMC2.Guiprofile()
+                    </Action>
+                </Macro>
+                <Macro Name="Red">
+                    <Action>
+                        XBMC2.Red()
+                    </Action>
+                </Macro>
+                <Macro Name="Green">
+                    <Action>
+                        XBMC2.Green()
+                    </Action>
+                </Macro>
+                <Macro Name="Yellow">
+                    <Action>
+                        XBMC2.Yellow()
+                    </Action>
+                </Macro>
+                <Macro Name="Blue">
+                    <Action>
+                        XBMC2.Blue()
+                    </Action>
+                </Macro>
+                <Macro Name="Subtitleshiftup">
+                    <Action>
+                        XBMC2.Subtitleshiftup()
+                    </Action>
+                </Macro>
+                <Macro Name="Subtitleshiftdown">
+                    <Action>
+                        XBMC2.Subtitleshiftdown()
+                    </Action>
+                </Macro>
+                <Macro Name="Subtitlealign">
+                    <Action>
+                        XBMC2.Subtitlealign()
+                    </Action>
+                </Macro>
+                <Macro Name="Help">
+                    <Action>
+                        XBMC2.Help()
+                    </Action>
+                </Macro>
+                <Macro Name="Minimize">
+                    <Action>
+                        XBMC2.Minimize()
+                    </Action>
+                </Macro>
+                <Macro Name="Mastermode">
+                    <Action>
+                        XBMC2.Mastermode()
+                    </Action>
+                </Macro>
+                <Macro Name="TakeScreenshot">
+                    <Action>
+                        XBMC2.TakeScreenshot()
+                    </Action>
+                </Macro>
+                <Macro Name="ReloadSkin">
+                    <Action>
+                        XBMC2.ReloadSkin()
+                    </Action>
+                </Macro>
+                <Macro Name="UnloadSkin">
+                    <Action>
+                        XBMC2.UnloadSkin()
+                    </Action>
+                </Macro>
+                <Macro Name="RefreshRSS">
+                    <Action>
+                        XBMC2.RefreshRSS()
+                    </Action>
+                </Macro>
+                <Macro Name="Playlist.Clear">
+                    <Action>
+                        XBMC2.Playlist.Clear()
+                    </Action>
+                </Macro>
+                <Macro Name="RipCD">
+                    <Action>
+                        XBMC2.RipCD()
+                    </Action>
+                </Macro>
+                <Macro Name="Skin.ResetSettings">
+                    <Action>
+                        XBMC2.Skin.ResetSettings()
+                    </Action>
+                </Macro>
+                <Macro Name="System.LogOff">
+                    <Action>
+                        XBMC2.System.LogOff()
+                    </Action>
+                </Macro>
+                <Macro Name="Container.Refresh">
+                    <Action>
+                        XBMC2.Container.Refresh()
+                    </Action>
+                </Macro>
+                <Macro Name="Container.Update">
+                    <Action>
+                        XBMC2.Container.Update()
+                    </Action>
+                </Macro>
+                <Macro Name="Container.NextViewMode">
+                    <Action>
+                        XBMC2.Container.NextViewMode()
+                    </Action>
+                </Macro>
+                <Macro Name="Container.PreviousViewMode">
+                    <Action>
+                        XBMC2.Container.PreviousViewMode()
+                    </Action>
+                </Macro>
+                <Macro Name="Container.NextSortMethod">
+                    <Action>
+                        XBMC2.Container.NextSortMethod()
+                    </Action>
+                </Macro>
+                <Macro Name="Container.PreviousSortMethod">
+                    <Action>
+                        XBMC2.Container.PreviousSortMethod()
+                    </Action>
+                </Macro>
+                <Macro Name="Container.SortDirection">
+                    <Action>
+                        XBMC2.Container.SortDirection()
+                    </Action>
+                </Macro>
+                <Macro Name="UpdateAddonRepos">
+                    <Action>
+                        XBMC2.UpdateAddonRepos()
+                    </Action>
+                </Macro>
+                <Macro Name="UpdateLocalAddons" Expanded="True">
+                    <Action>
+                        XBMC2.UpdateLocalAddons()
+                    </Action>
+                </Macro>
+                <Macro Name="ToggleDPMS">
+                    <Action>
+                        XBMC2.ToggleDPMS()
+                    </Action>
+                </Macro>
+                <Macro Name="Weather.Refresh">
+                    <Action>
+                        XBMC2.Weather.Refresh()
+                    </Action>
+                </Macro>
+                <Macro Name="Weather.LocationNext">
+                    <Action>
+                        XBMC2.Weather.LocationNext()
+                    </Action>
+                </Macro>
+                <Macro Name="Weather.LocationPrevious">
+                    <Action>
+                        XBMC2.Weather.LocationPrevious()
+                    </Action>
+                </Macro>
+                <Macro Name="LIRC.Stop">
+                    <Action>
+                        XBMC2.LIRC.Stop()
+                    </Action>
+                </Macro>
+                <Macro Name="LIRC.Start">
+                    <Action>
+                        XBMC2.LIRC.Start()
+                    </Action>
+                </Macro>
+                <Macro Name="LCD.Suspend">
+                    <Action>
+                        XBMC2.LCD.Suspend()
+                    </Action>
+                </Macro>
+                <Macro Name="LCD.Resume">
+                    <Action>
+                        XBMC2.LCD.Resume()
+                    </Action>
+                </Macro>
+            </Folder>
+        </Folder>
+        <Folder Name="Windows" Expanded="True">
+            <Macro Name="Show Movies Screen">
+                <Action>
+                    XBMC2.MyMovies()
+                </Action>
+            </Macro>
+            <Macro Name="Show TV Shows Screen">
+                <Action>
+                    XBMC2.MyTVShows()
+                </Action>
+            </Macro>
+            <Macro Name="Show Shutdown Menu">
+                <Action>
+                    XBMC2.ShutdownMenu()
+                </Action>
+            </Macro>
+            <Macro Name="Home">
+                <Action>
+                    XBMC2.Home()
+                </Action>
+            </Macro>
+            <Macro Name="Programs" Expanded="True">
+                <Action>
+                    XBMC2.Programs()
+                </Action>
+            </Macro>
+            <Macro Name="Pictures">
+                <Action>
+                    XBMC2.Pictures()
+                </Action>
+            </Macro>
+            <Macro Name="Files">
+                <Action>
+                    XBMC2.Files()
+                </Action>
+            </Macro>
+            <Macro Name="Settings" Expanded="True">
+                <Action>
+                    XBMC2.Settings()
+                </Action>
+            </Macro>
+            <Macro Name="Music">
+                <Action>
+                    XBMC2.Music()
+                </Action>
+            </Macro>
+            <Macro Name="Musicfiles" Expanded="True">
+                <Action>
+                    XBMC2.Musicfiles()
+                </Action>
+            </Macro>
+            <Macro Name="Musiclibrary" Expanded="True">
+                <Action>
+                    XBMC2.Musiclibrary()
+                </Action>
+            </Macro>
+            <Macro Name="Musicplaylist" Expanded="True">
+                <Action>
+                    XBMC2.Musicplaylist()
+                </Action>
+            </Macro>
+            <Macro Name="Musicplaylisteditor">
+                <Action>
+                    XBMC2.Musicplaylisteditor()
+                </Action>
+            </Macro>
+            <Macro Name="Musicinformation">
+                <Action>
+                    XBMC2.Musicinformation()
+                </Action>
+            </Macro>
+            <Macro Name="Video">
+                <Action>
+                    XBMC2.Video()
+                </Action>
+            </Macro>
+            <Macro Name="Videofiles">
+                <Action>
+                    XBMC2.Videofiles()
+                </Action>
+            </Macro>
+            <Macro Name="Videolibrary">
+                <Action>
+                    XBMC2.Videolibrary()
+                </Action>
+            </Macro>
+            <Macro Name="Videoplaylist">
+                <Action>
+                    XBMC2.Videoplaylist()
+                </Action>
+            </Macro>
+            <Macro Name="Systeminfo">
+                <Action>
+                    XBMC2.Systeminfo()
+                </Action>
+            </Macro>
+            <Macro Name="Guicalibration">
+                <Action>
+                    XBMC2.Guicalibration()
+                </Action>
+            </Macro>
+            <Macro Name="Screencalibration">
+                <Action>
+                    XBMC2.Screencalibration()
+                </Action>
+            </Macro>
+            <Macro Name="Picturessettings">
+                <Action>
+                    XBMC2.Picturessettings()
+                </Action>
+            </Macro>
+            <Macro Name="Programssettings">
+                <Action>
+                    XBMC2.Programssettings()
+                </Action>
+            </Macro>
+            <Macro Name="Weathersettings">
+                <Action>
+                    XBMC2.Weathersettings()
+                </Action>
+            </Macro>
+            <Macro Name="Musicsettings">
+                <Action>
+                    XBMC2.Musicsettings()
+                </Action>
+            </Macro>
+            <Macro Name="Systemsettings">
+                <Action>
+                    XBMC2.Systemsettings()
+                </Action>
+            </Macro>
+            <Macro Name="Videossettings">
+                <Action>
+                    XBMC2.Videossettings()
+                </Action>
+            </Macro>
+            <Macro Name="Networksettings">
+                <Action>
+                    XBMC2.Networksettings()
+                </Action>
+            </Macro>
+            <Macro Name="Appearancesettings">
+                <Action>
+                    XBMC2.Appearancesettings()
+                </Action>
+            </Macro>
+            <Macro Name="Scripts">
+                <Action>
+                    XBMC2.Scripts()
+                </Action>
+            </Macro>
+            <Macro Name="Gamesaves">
+                <Action>
+                    XBMC2.Gamesaves()
+                </Action>
+            </Macro>
+            <Macro Name="Profiles">
+                <Action>
+                    XBMC2.Profiles()
+                </Action>
+            </Macro>
+            <Macro Name="Virtualkeyboard">
+                <Action>
+                    XBMC2.Virtualkeyboard()
+                </Action>
+            </Macro>
+            <Macro Name="Volumebar">
+                <Action>
+                    XBMC2.Volumebar()
+                </Action>
+            </Macro>
+            <Macro Name="Favourites">
+                <Action>
+                    XBMC2.Favourites()
+                </Action>
+            </Macro>
+            <Macro Name="Musicosd">
+                <Action>
+                    XBMC2.Musicosd()
+                </Action>
+            </Macro>
+            <Macro Name="Visualisationsettings">
+                <Action>
+                    XBMC2.Visualisationsettings()
+                </Action>
+            </Macro>
+            <Macro Name="Visualisationpresetlist">
+                <Action>
+                    XBMC2.Visualisationpresetlist()
+                </Action>
+            </Macro>
+            <Macro Name="Osdvideosettings">
+                <Action>
+                    XBMC2.Osdvideosettings()
+                </Action>
+            </Macro>
+            <Macro Name="Osdaudiosettings">
+                <Action>
+                    XBMC2.Osdaudiosettings()
+                </Action>
+            </Macro>
+            <Macro Name="Videobookmarks">
+                <Action>
+                    XBMC2.Videobookmarks()
+                </Action>
+            </Macro>
+            <Macro Name="Profilesettings">
+                <Action>
+                    XBMC2.Profilesettings()
+                </Action>
+            </Macro>
+            <Macro Name="Locksettings">
+                <Action>
+                    XBMC2.Locksettings()
+                </Action>
+            </Macro>
+            <Macro Name="Contentsettings">
+                <Action>
+                    XBMC2.Contentsettings()
+                </Action>
+            </Macro>
+            <Macro Name="Networksetup">
+                <Action>
+                    XBMC2.Networksetup()
+                </Action>
+            </Macro>
+            <Macro Name="Smartplaylisteditor">
+                <Action>
+                    XBMC2.Smartplaylisteditor()
+                </Action>
+            </Macro>
+            <Macro Name="Smartplaylistrule">
+                <Action>
+                    XBMC2.Smartplaylistrule()
+                </Action>
+            </Macro>
+            <Macro Name="Movieinformation">
+                <Action>
+                    XBMC2.Movieinformation()
+                </Action>
+            </Macro>
+            <Macro Name="Scriptsdebuginfo">
+                <Action>
+                    XBMC2.Scriptsdebuginfo()
+                </Action>
+            </Macro>
+            <Macro Name="Fullscreenvideo">
+                <Action>
+                    XBMC2.Fullscreenvideo()
+                </Action>
+            </Macro>
+            <Macro Name="Visualisation">
+                <Action>
+                    XBMC2.Visualisation()
+                </Action>
+            </Macro>
+            <Macro Name="Slideshow">
+                <Action>
+                    XBMC2.Slideshow()
+                </Action>
+            </Macro>
+            <Macro Name="Filestackingdialog">
+                <Action>
+                    XBMC2.Filestackingdialog()
+                </Action>
+            </Macro>
+            <Macro Name="Weather">
+                <Action>
+                    XBMC2.Weather()
+                </Action>
+            </Macro>
+            <Macro Name="Screensaver">
+                <Action>
+                    XBMC2.Screensaver()
+                </Action>
+            </Macro>
+            <Macro Name="Videoosd">
+                <Action>
+                    XBMC2.Videoosd()
+                </Action>
+            </Macro>
+            <Macro Name="Videomenu">
+                <Action>
+                    XBMC2.Videomenu()
+                </Action>
+            </Macro>
+            <Macro Name="Filebrowser">
+                <Action>
+                    XBMC2.Filebrowser()
+                </Action>
+            </Macro>
+            <Macro Name="Startup" Expanded="True">
+                <Action>
+                    XBMC2.Startup()
+                </Action>
+            </Macro>
+            <Macro Name="Startwindow">
+                <Action>
+                    XBMC2.Startwindow()
+                </Action>
+            </Macro>
+            <Macro Name="Loginscreen">
+                <Action>
+                    XBMC2.Loginscreen()
+                </Action>
+            </Macro>
+            <Macro Name="Musicoverlay">
+                <Action>
+                    XBMC2.Musicoverlay()
+                </Action>
+            </Macro>
+            <Macro Name="Videooverlay">
+                <Action>
+                    XBMC2.Videooverlay()
+                </Action>
+            </Macro>
+            <Macro Name="Pictureinfo">
+                <Action>
+                    XBMC2.Pictureinfo()
+                </Action>
+            </Macro>
+            <Macro Name="Pluginsettings">
+                <Action>
+                    XBMC2.Pluginsettings()
+                </Action>
+            </Macro>
+            <Macro Name="Fullscreeninfo">
+                <Action>
+                    XBMC2.Fullscreeninfo()
+                </Action>
+            </Macro>
+            <Macro Name="Player Controls">
+                <Action>
+                    XBMC2.PlayerControls()
+                </Action>
+            </Macro>
+        </Folder>
+        <Folder Name="Experimental">
+            <Macro Name="JSONRPC" Expanded="True">
+                <Action>
+                    XBMC2.JSONRPC()
+                </Action>
+            </Macro>
+            <Macro Name="HTTPAPI" Expanded="True">
+                <Action>
+                    XBMC2.HTTPAPI()
+                </Action>
+            </Macro>
+            <Macro Name="GetCurrentlyPlayingFilename" Expanded="True">
+                <Action>
+                    XBMC2.GetCurrentlyPlayingFilename()
+                </Action>
+            </Macro>
+            <Macro Name="SendNotification" Expanded="True">
+                <Action>
+                    XBMC2.SendNotification()
+                </Action>
+            </Macro>
+        </Folder>
+    </Folder>
+</EventGhost>
